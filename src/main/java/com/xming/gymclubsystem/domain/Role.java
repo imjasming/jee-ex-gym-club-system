@@ -3,7 +3,6 @@ package com.xming.gymclubsystem.domain;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,15 +19,14 @@ public class Role implements Serializable {
     @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
     private int id;
 
-    @NotNull
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    @ManyToMany(mappedBy = "roles",fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<UmUser> users;
 
-    public enum RoleName{
+    public enum RoleName {
         ROLE_USER, ROLE_ADMIN
     }
 }

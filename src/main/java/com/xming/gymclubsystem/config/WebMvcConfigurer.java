@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.List;
 
-//import com.xiaoming.springbootlearning.common.AuthorityInterceptor;
 
 /**
  * @author Xiaoming.

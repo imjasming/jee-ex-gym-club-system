@@ -39,7 +39,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         final String authHead = request.getHeader(this.tokenHeader);
-        if (authHead != null && authHead.startsWith(this.tokenHead)){
+        if (authHead != null && authHead.startsWith(this.tokenHead)) {
 
             // the part after "Bearer "
             String authToken = authHead.substring(JwtTokenUtil.TOKEN_HEAD_LENGHT);
@@ -52,10 +52,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 logger.warn("the token is expired and not valid anymore", e);
             }
 
-            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 final UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }

@@ -18,5 +18,7 @@ public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //don't need to do anything on rest authentication success, because there is no page to redirect to
+        // But now, in this exercise, we need to do more
+        //TODO
     }
 }

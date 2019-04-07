@@ -1,15 +1,15 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.dto.UserSignUpParam;
 import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Xiaoming.
@@ -21,29 +21,40 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(path = "signup")
-    public String getSignUpForm(){
+    public String getSignUpForm() {
         return "sign-up";
     }
 
     @PostMapping(path = "signup")
-    public ResponseEntity<UmUser> signUp(
-            @RequestParam(value = "username") String username
-            ,@RequestParam(value = "password") String password
-            ,@RequestParam(value = "email") String email
-    ){
-        return null;
+    @ResponseBody
+    public ResponseEntity<UmUser> signUp(@RequestBody UserSignUpParam userSignUpParam, BindingResult result) {
+        UmUser user = userService.register(userSignUpParam);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @GetMapping(path = "/login")
-    public String getLoginForm(){
+    public String getLoginForm() {
         return "login";
     }
 
     @PostMapping(path = "/login")
     @ResponseBody
-    public ResponseEntity<UmUser> signIn(@RequestParam(value = "username", required = true) String username
-            , @RequestParam(value = "password") String password){
-        return null;
+    public ResponseEntity<String> login(@RequestParam(value = "username", required = true) String username
+            , @RequestParam(value = "password") String password) {
+        String token = userService.login(username, password);
+
+        if (token == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        return ResponseEntity.ok(token);
     }
 }

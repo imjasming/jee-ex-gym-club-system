@@ -22,6 +22,7 @@ import java.util.function.Function;
  * {"alg": "HS265","typ": "JWT"}
  * payload的格式（用户名、创建时间、生成时间）：
  * {"sub":"ming","created":,"exp":}
+ *
  * @author Xiaoming.
  * Created on 2019/03/12 23:29.
  */
@@ -40,11 +41,11 @@ public class JwtTokenUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    private Date generateExpirationDate(Date createdDate){
+    private Date generateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + expiration * 1000);
     }
 
-    private String doGenerateToken(Map<String, Object> claims){
+    private String doGenerateToken(Map<String, Object> claims) {
 
         final Date createdDate = new Date(System.currentTimeMillis());
         final Date expirationDate = generateExpirationDate(createdDate);
@@ -58,25 +59,25 @@ public class JwtTokenUtil {
                 .compact();
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails) {
         Map<String, Object> claim = new HashMap<>();
         claim.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         return doGenerateToken(claim);
     }
 
-    private Claims getClaimsFromToken(String token){
+    private Claims getClaimsFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secret)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimResolver){
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimResolver) {
         final Claims claims = getClaimsFromToken(token);
         return claimResolver.apply(claims);
     }
 
-    public String getUsernameFromToken(String token){
+    public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -88,12 +89,12 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
-    private boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
 
-    public boolean validateToken(String token, UserDetails userDetails){
+    public boolean validateToken(String token, UserDetails userDetails) {
         //Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
 
         JwtUserDetails user = (JwtUserDetails) userDetails;
@@ -106,21 +107,21 @@ public class JwtTokenUtil {
         );
     }
 
-    private boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset){
+    private boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private boolean ignoreTokenExpiration(String token){
+    private boolean ignoreTokenExpiration(String token) {
         //TODO
         return false;
     }
 
-    public boolean canTokenBeRefreshed(String token, Date lastPasswordReset){
+    public boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
         final Date created = getIssuedAtDateFromToken(token);
         return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && !isTokenExpired(token);
     }
 
-    public String refreshToken(String token){
+    public String refreshToken(String token) {
 /*        final Date createdDate = new Date();
         final Date expirationDate = generateExpirationDate(createdDate);*/
 

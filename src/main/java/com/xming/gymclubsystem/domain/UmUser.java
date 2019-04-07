@@ -12,7 +12,7 @@ import java.util.List;
  * Created on 2019/03/29 15:10.
  */
 
-@Entity(name="user")
+@Entity(name = "user")
 @Data
 public class UmUser implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class UmUser implements Serializable {
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
-    private List<Role> roles;
+    private List<String> roles;
 
     public UmUser() {
     }
