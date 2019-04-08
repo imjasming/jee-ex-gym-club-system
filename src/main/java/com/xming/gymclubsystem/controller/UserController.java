@@ -2,13 +2,11 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.dto.UserSignUpParam;
-import com.xming.gymclubsystem.repository.UserRepository;
 import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,20 +17,17 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
-    @GetMapping(path = "signup")
+    @GetMapping(path = "/signup")
     public String getSignUpForm() {
         return "sign-up";
     }
 
-    @PostMapping(path = "signup")
+    @PostMapping(path = "/signup")
     @ResponseBody
-    public ResponseEntity<UmUser> signUp(@RequestBody UserSignUpParam userSignUpParam, BindingResult result) {
-        UmUser user = userService.register(userSignUpParam);
+    public ResponseEntity<UmUser> signUp(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email) {
+        UmUser user = userService.register(new UserSignUpParam(username, password, email));
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -47,7 +42,8 @@ public class UserController {
 
     @PostMapping(path = "/login")
     @ResponseBody
-    public ResponseEntity<String> login(@RequestParam(value = "username", required = true) String username
+    public ResponseEntity<String> login(
+            @RequestParam(value = "username", required = true) String username
             , @RequestParam(value = "password") String password) {
         String token = userService.login(username, password);
 
@@ -55,6 +51,12 @@ public class UserController {
             return ResponseEntity.badRequest().body(null);
         }
 
+        log.info("user[{}] login, token: {}", username, token);
         return ResponseEntity.ok(token);
+    }
+
+    @RequestMapping(path = "/")
+    public String index() {
+        return "index";
     }
 }

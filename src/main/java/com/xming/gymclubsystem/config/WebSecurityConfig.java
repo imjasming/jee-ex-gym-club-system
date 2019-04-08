@@ -44,18 +44,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET,  //允许对静态资源的无授权访问
-                        "/",
                         "/*.html",
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/login", "/signup").permitAll()  //登陆注册
+                .antMatchers("/signin", "/signup").permitAll()  //登陆注册
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/signin")
                 .permitAll()
                 .and()
                 .logout().permitAll()
@@ -71,7 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /*.fullyAuthenticated()
                 .and()
                 .formLogin();*/
-
     }
 
     @Bean

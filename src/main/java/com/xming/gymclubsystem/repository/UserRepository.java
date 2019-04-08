@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<UmUser, Long> {
 
     List<UmUser> findAllByUsername(String username);
 
+    boolean existsByEmail(String email);
+
     UmUser findByEmail(String email);
 
     List<UmUser> findAllByEmail(String email);
@@ -24,4 +26,6 @@ public interface UserRepository extends JpaRepository<UmUser, Long> {
     UmUser findUserByUsernameAndPassword(String username, String password);
 
     UmUser findUserByIdAndAndPassword(Long id, String password);
+
+
 }

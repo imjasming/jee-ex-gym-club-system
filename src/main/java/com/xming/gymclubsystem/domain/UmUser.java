@@ -24,7 +24,7 @@ public class UmUser implements Serializable {
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 128)
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -40,7 +40,7 @@ public class UmUser implements Serializable {
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
-    private List<String> roles;
+    private List<Role> roles;
 
     public UmUser() {
     }

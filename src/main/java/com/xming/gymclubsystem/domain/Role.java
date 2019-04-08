@@ -26,6 +26,10 @@ public class Role implements Serializable {
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<UmUser> users;
 
+    public Role(RoleName roleName) {
+        this.name = roleName;
+    }
+
     public enum RoleName {
         ROLE_USER, ROLE_ADMIN
     }

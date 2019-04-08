@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.service.impl;
 
+import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.dto.UserSignUpParam;
 import com.xming.gymclubsystem.repository.UserRepository;
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
     public UmUser register(UserSignUpParam signUpParam) {
         UmUser newUser = new UmUser();
         if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
+            log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
             return null;
         }
 
@@ -54,8 +56,8 @@ public class UserServiceImpl implements UserService {
         final String rawPassword = passwordEncoder.encode(signUpParam.getPassword());
         newUser.setPassword(rawPassword);
         newUser.setLastPasswordReset(new Date());
-
-        newUser.setRoles(Collections.singletonList("ROLE_USER"));
+        newUser.setRoles(Collections.singletonList(new Role(Role.RoleName.ROLE_USER)));
+        newUser.setEnable(true);
 
         userRepository.save(newUser);
         return newUser;
@@ -64,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(String username, String password) {
         String token = null;
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, passwordEncoder.encode(password));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
 
         try {
             final Authentication authentication = authenticationManager.authenticate(authenticationToken);
@@ -74,8 +76,10 @@ public class UserServiceImpl implements UserService {
             token = jwtTokenUtil.generateToken(userDetails);
 
             //TODO: maybe we can update user's lastlogin or log
+            log.info("user[{}] login", username);
         } catch (AuthenticationException e) {
-            log.warn("login failed: {}", e.getMessage());
+            //log.warn("login failed: {}", e.getMessage());
+            e.printStackTrace();
         }
 
         return token;

@@ -19,4 +19,10 @@ public class UserSignUpParam {
     private String password;
     @Email
     private String email;
+
+    public UserSignUpParam(@Size(min = 6, max = 20) @NotNull String username, @Size(min = 6, max = 20) String password, @Email String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 }
