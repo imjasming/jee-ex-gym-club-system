@@ -2,7 +2,7 @@ package com.xming.gymclubsystem.service.impl;
 
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpParam;
+import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.UserRepository;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import com.xming.gymclubsystem.service.UserService;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Override
-    public UmUser register(UserSignUpParam signUpParam) {
+    public UmUser register(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
         if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
             log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
             //TODO: maybe we can update user's lastlogin or log
             log.info("user[{}] login", username);
         } catch (AuthenticationException e) {
-            //log.warn("login failed: {}", e.getMessage());
+            log.warn("user[{}] login failed: {}", username, e.getMessage());
             e.printStackTrace();
         }
 
@@ -87,6 +87,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UmUser getUserByName(String username) {
-        return null;
+        return userRepository.findByUsername(username);
     }
 }

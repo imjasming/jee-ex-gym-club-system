@@ -1,13 +1,17 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpParam;
+import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Xiaoming.
@@ -19,15 +23,23 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(path = "/signup")
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
+
+/*    @GetMapping(path = "/signup")
     public String getSignUpForm() {
         return "sign-up";
-    }
+    }*/
 
     @PostMapping(path = "/signup")
     @ResponseBody
-    public ResponseEntity<UmUser> signUp(@RequestParam(value = "username") String username, @RequestParam(value = "password") String password, @RequestParam(value = "email") String email) {
-        UmUser user = userService.register(new UserSignUpParam(username, password, email));
+    public ResponseEntity<UmUser> signUp(
+            //@RequestBody UserSignUpRequest request
+            @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email
+    ) {
+        UmUser user = userService.register(new UserSignUpRequest(username, password, email));
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -35,15 +47,15 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = "/login")
+    /*@GetMapping(path = "/login")
     public String getLoginForm() {
         return "login";
-    }
+    }*/
 
     @PostMapping(path = "/login")
     @ResponseBody
-    public ResponseEntity<String> login(
-            @RequestParam(value = "username", required = true) String username
+    public ResponseEntity<Map> login(
+            @RequestParam(value = "username") String username
             , @RequestParam(value = "password") String password) {
         String token = userService.login(username, password);
 
@@ -52,10 +64,13 @@ public class UserController {
         }
 
         log.info("user[{}] login, token: {}", username, token);
-        return ResponseEntity.ok(token);
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("token", token);
+        tokenMap.put("tokenHead", tokenHead);
+        return ResponseEntity.ok(tokenMap);
     }
 
-    @RequestMapping(path = "/")
+    @RequestMapping(path = {"/", ""})
     public String index() {
         return "index";
     }
