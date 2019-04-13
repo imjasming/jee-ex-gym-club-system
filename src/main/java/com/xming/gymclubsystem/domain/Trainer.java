@@ -5,15 +5,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Data
 @Entity
 public class Trainer {
-
-
     @GeneratedValue
     @Id
     private Integer id;
@@ -24,15 +21,12 @@ public class Trainer {
     private String email;
     private String telephone;
     private double salary;
-
-
-
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "trainers")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "trainers")
     @Fetch(FetchMode.SUBSELECT)
     private List<UmUser> umUsers = new LinkedList<>();
 
 
-    @JoinColumn(name="GYM_ID")
+    @JoinColumn(name = "GYM_ID")
     @ManyToOne
     private Gym gym;
 

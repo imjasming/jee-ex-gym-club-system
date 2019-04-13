@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.List;
 
 @Entity
 @Data
@@ -14,6 +13,6 @@ public class Gym {
     @GeneratedValue
     private Integer id;
     private String gymName;
-    private String locaton;
+    private String location;
 
 }
