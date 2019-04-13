@@ -37,7 +37,7 @@ public class GymClubSystemApplicationTests {
 
 	@Test
 	@Transactional
-	@Rollback(false)
+	//@Rollback(false)
 	public void contextLoads() {
 		Role role1 = new Role(ROLE_USER);
 		Role role2 = new Role(ROLE_USER);
