@@ -34,7 +34,7 @@ public class JwtTokenUtil {
     private static final String CLAIM_KEY_CREATED = "iat";
 
     // the part after "Bearer "
-    public static final int TOKEN_HEAD_LENGHT = 7;
+    public static final int TOKEN_HEAD_LENGTH = 7;
 
     @Value("${jwt.secret}")
     private String secret;
