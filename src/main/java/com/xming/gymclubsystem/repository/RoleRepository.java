@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.repository;
 
+import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -13,21 +14,7 @@ import java.util.List;
  * Description :This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
  * CRUD refers Create, Read, Update, Delete
  */
+public interface RoleRepository extends JpaRepository<Role, Long> , JpaSpecificationExecutor<Role> {
 
-public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecificationExecutor<UmUser> {
-
-    UmUser findByUsername(String username);
-
-    List<UmUser> findAllByUsername(String username);
-
-    boolean existsByEmail(String email);
-
-    UmUser findByEmail(String email);
-
-    List<UmUser> findAllByEmail(String email);
-
-    UmUser findUserByUsernameAndPassword(String username, String password);
-
-    UmUser findUserByIdAndAndPassword(Long id, String password);
 
 }

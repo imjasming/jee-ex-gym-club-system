@@ -27,8 +27,6 @@ public class GymClubSystemApplicationTests {
 	private EntityManager em;
 
 
-
-
 	@Test
 	@Transactional
 	@Rollback(false)

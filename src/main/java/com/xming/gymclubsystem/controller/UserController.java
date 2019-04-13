@@ -52,7 +52,7 @@ public class UserController {
         return "login";
     }*/
 
-    @PostMapping(path = "/login")
+    @RequestMapping(path = "/login")
     @ResponseBody
     public ResponseEntity<Map> login(
             @RequestParam(value = "username") String username
