@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,12 +21,12 @@ public class Role implements Serializable {
     @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false,unique = true)
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<UmUser> users;
+    @ManyToMany(mappedBy = "roles")
+    private List<UmUser> users =new LinkedList<>();
 
     public Role(RoleName roleName) {
         this.name = roleName;

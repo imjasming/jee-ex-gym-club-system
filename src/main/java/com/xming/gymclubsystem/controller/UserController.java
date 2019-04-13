@@ -33,7 +33,7 @@ public class UserController {
         return "sign-up";
     }*/
 
-    @PostMapping(path = "/signup")
+    @RequestMapping(path = "/signup")
     @ResponseBody
     public ResponseEntity<UmUser> signUp(
             //@RequestBody UserSignUpRequest request
