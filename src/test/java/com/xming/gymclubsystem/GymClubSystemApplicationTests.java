@@ -2,23 +2,15 @@ package com.xming.gymclubsystem;
 
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.xming.gymclubsystem.domain.Role.RoleName.ROLE_USER;
 
@@ -40,7 +32,7 @@ public class GymClubSystemApplicationTests {
 	//@Rollback(false)
 	public void contextLoads() {
 		Role role1 = new Role(ROLE_USER);
-		Role role2 = new Role(ROLE_USER);
+        //Role role2 = new Role(ROLE_USER);
 
 		UmUser user1 = new UmUser();
 		user1.setNickname("cw");
@@ -58,20 +50,20 @@ public class GymClubSystemApplicationTests {
 		role1.getUsers().add(user1);
 		role1.getUsers().add(user2);
 
-		role2.getUsers().add(user1);
+		/*role2.getUsers().add(user1);
 		role2.getUsers().add(user2);
 
 		user1.getRoles().add(role1);
 		user1.getRoles().add(role2);
 
 		user2.getRoles().add(role1);
-		user2.getRoles().add(role2);
+		user2.getRoles().add(role2);*/
 
 
         //保存
 
 		em.persist(role1);
-		em.persist(role2);
+        //em.persist(role2);
 		em.persist(user1);
 		em.persist(user2);
 

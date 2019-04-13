@@ -45,6 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/login", "/signup").permitAll()  //登陆注册
+                .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
+                .permitAll()
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .logout().permitAll()
