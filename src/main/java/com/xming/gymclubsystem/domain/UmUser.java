@@ -1,6 +1,8 @@
 package com.xming.gymclubsystem.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -42,7 +44,25 @@ public class UmUser implements Serializable {
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Role> roles = new LinkedList<>();
+
+
+    @JoinColumn(name="GYM_ID")
+    @ManyToOne
+    private Gym gym;
+
+
+
+
+    @JoinTable(name = "user_trainer_relation", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "tid", referencedColumnName = "id")})
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Trainer> trainers = new LinkedList<>();
+
+
+
 
     public UmUser() {
     }
