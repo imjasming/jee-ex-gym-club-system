@@ -14,6 +14,14 @@ public class Gym {
     @GeneratedValue
     private Integer id;
     private String gymName;
-    private String locaton;
+    private String location;
 
+    @Override
+    public String toString() {
+        return "Gym{" +
+                "id=" + id +
+                ", gymName='" + gymName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

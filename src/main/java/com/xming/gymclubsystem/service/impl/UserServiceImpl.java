@@ -11,6 +11,7 @@ import com.xming.gymclubsystem.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+
     @Override
     public UmUser register(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
@@ -63,7 +65,6 @@ public class UserServiceImpl implements UserService {
         newUser.setLastPasswordReset(new Date());
         newUser.setRoles(Collections.singletonList(newRole));
         newUser.setEnable(true);
-
         roleRepository.save(newRole);
         userRepository.save(newUser);
         return newUser;
@@ -92,6 +93,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "umuser",key = "#username")
     public UmUser getUserByName(String username) {
         return userRepository.findByUsername(username);
     }

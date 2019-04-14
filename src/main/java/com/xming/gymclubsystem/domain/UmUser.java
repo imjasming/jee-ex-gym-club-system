@@ -84,6 +84,14 @@ public class UmUser implements Serializable {
         return "UmUser{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", lastPasswordReset=" + lastPasswordReset +
+                ", enable=" + enable +
+                ", roles=" + roles +
+                ", gym=" + gym +
+                ", trainers=" + trainers +
                 '}';
     }
 }
