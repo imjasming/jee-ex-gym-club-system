@@ -44,7 +44,7 @@ dependencies {
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
 
 
-    //implementation('com.alibaba:fastjson:1.2.56')
+    implementation('com.alibaba:fastjson:1.2.56')
 
     implementation('io.jsonwebtoken:jjwt:0.9.1')
 

@@ -4,6 +4,7 @@ import com.xming.gymclubsystem.components.JwtAuthenticationTokenFilter;
 import com.xming.gymclubsystem.components.RestAuthenticationEntryPoint;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,13 +12,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * @author Xiaoming.
@@ -44,9 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/signup").permitAll()  //登陆注册
-                .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
-                .permitAll()
+                .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
+                        "/",
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js"
+                ).permitAll()
+                .antMatchers("/login", "/register").permitAll()// 对登录注册要允许匿名访问
+                .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .logout().permitAll()
@@ -82,21 +92,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.POST,
-                        "/login"
-                )
-                .and()
-                .ignoring()
-                .antMatchers(HttpMethod.GET,  //允许对静态资源的无授权访问
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js");
+    /**
+     * 允许跨域调用的过滤器
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedOrigin("*");
+        config.setAllowCredentials(true);
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(0);
+        return new CorsFilter(source);
     }
+
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web
+//                .ignoring()
+//                .antMatchers(
+//                        HttpMethod.POST,
+//                        "/login", "/signin"
+//                )
+//                .and()
+//                .ignoring()
+//                .antMatchers(HttpMethod.GET,  //允许对静态资源的无授权访问
+//                        "/*.html",
+//                        "/favicon.ico",
+//                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js");
+//    }
+
 }

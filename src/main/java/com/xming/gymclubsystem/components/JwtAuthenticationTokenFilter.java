@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.components;
 
+import com.alibaba.fastjson.JSON;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import com.xming.gymclubsystem.util.JwtTokenUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -62,6 +63,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 }
             }
         }
+
+        log.info("from: {}:{},request: {} {} {}"
+                , request.getRemoteAddr()
+                , request.getRemotePort()
+                , request.getMethod()
+                , request.getRequestURL()
+                , JSON.toJSONString(request.getParameterMap())
+        );
+
         filterChain.doFilter(request, response);
     }
 }

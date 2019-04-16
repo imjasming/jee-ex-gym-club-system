@@ -1,14 +1,15 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.dto.RestResponse;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  * Created on 2019/03/29 17:59.
  */
 @Slf4j
-@Controller
+@RestController
 public class UserController {
     @Autowired
     private UserService userService;
@@ -28,50 +29,33 @@ public class UserController {
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
 
-/*    @GetMapping(path = "/signup")
-    public String getSignUpForm() {
-        return "sign-up";
-    }*/
-
-    @RequestMapping(path = "/signup")
-    @ResponseBody
-    public ResponseEntity<UmUser> signUp(
+    @PostMapping(path = "/register")
+    public RestResponse signUp(
             //@RequestBody UserSignUpRequest request
             @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email
     ) {
         UmUser user = userService.register(new UserSignUpRequest(username, password, email));
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return RestResponse.ok(user);
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return RestResponse.badRequest("Username or password already exists");
         }
     }
 
-    /*@GetMapping(path = "/login")
-    public String getLoginForm() {
-        return "login";
-    }*/
-
-    @RequestMapping(path = "/login")
-    @ResponseBody
-    public ResponseEntity<Map> login(
+    @PostMapping(path = "/login")
+    public RestResponse login(
             @RequestParam(value = "username") String username
             , @RequestParam(value = "password") String password) {
         String token = userService.login(username, password);
 
         if (token == null) {
-            return ResponseEntity.badRequest().body(null);
+            return RestResponse.badRequest("Username or password incorrect");
         }
 
         log.info("user[{}] login, token: {}", username, token);
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
-        return ResponseEntity.ok(tokenMap);
-    }
-
-    @RequestMapping(path = {"/", ""})
-    public String index() {
-        return "index";
+        return RestResponse.ok(tokenMap);
     }
 }
