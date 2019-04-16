@@ -32,7 +32,9 @@ public class UserController {
     @PostMapping(path = "/register")
     public RestResponse signUp(
             //@RequestBody UserSignUpRequest request
-            @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("email") String email
     ) {
         UmUser user = userService.register(new UserSignUpRequest(username, password, email));
         if (user != null) {
