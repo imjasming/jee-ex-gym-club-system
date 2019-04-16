@@ -15,4 +15,12 @@ public class Gym {
     private String gymName;
     private String location;
 
+    @Override
+    public String toString() {
+        return "Gym{" +
+                "id=" + id +
+                ", gymName='" + gymName + '\'' +
+                ", location='" + location + '\'' +
+                '}';
+    }
 }

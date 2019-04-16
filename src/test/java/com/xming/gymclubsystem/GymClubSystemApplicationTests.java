@@ -2,10 +2,13 @@ package com.xming.gymclubsystem;
 
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.util.RedisOperator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,8 @@ public class GymClubSystemApplicationTests {
 	@Autowired
 	private EntityManager em;
 
+	@Autowired
+	private RedisTemplate redisTemplate;
 
 	@Test
 	@Transactional
@@ -69,6 +74,17 @@ public class GymClubSystemApplicationTests {
 
 
 
+
+
+	}
+
+
+	@Test
+	public void testRedis(){
+		ValueOperations<String,Object> valueOperations = redisTemplate.opsForValue();
+
+		valueOperations.set("hello","redis");
+		System.out.println("UseRedisDap="+valueOperations.get("hello"));
 
 
 	}
