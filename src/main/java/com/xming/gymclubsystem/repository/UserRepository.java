@@ -1,8 +1,12 @@
 package com.xming.gymclubsystem.repository;
 
+import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.UmUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,4 +34,22 @@ public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecifi
 
     UmUser findUserByIdAndAndPassword(Long id, String password);
 
+    @Modifying
+    @Query("UPDATE UmUser u set u.email = :email where u.username = :username")
+    void updateUmUserEmail(@Param("username") String username, @Param("email") String email);
+
+
+    @Modifying
+    @Query("UPDATE UmUser u set u.gym = :gym where u.username = :username")
+    void updateUmUserGym(@Param("username") String username, @Param("gym") Gym gym);
+
+
+    @Modifying
+    @Query("UPDATE UmUser u set u.gym = null where u.username = :username")
+    void updateUmUserGymIsNull(@Param("username") String username);
+
+
+    @Modifying
+    @Query("select u from UmUser u  where u.gym = :gym ")
+    List<UmUser> getUmUserGym(@Param("gym") Gym gym);
 }

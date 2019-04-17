@@ -33,7 +33,7 @@ public class Trainer {
 
 
     @JoinColumn(name="GYM_ID")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Gym gym;
 
 

@@ -2,6 +2,7 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
+import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+
+    //数据库操作service
+    @Autowired
+    private DataService dataService;
+
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
