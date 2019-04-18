@@ -1,9 +1,15 @@
 package com.xming.gymclubsystem.repository;
 
+import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 /**
  * @author Xiaoming.
@@ -13,5 +19,41 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface TrainerRepository extends JpaRepository<Trainer, Long> , JpaSpecificationExecutor<Trainer> {
 
+    Trainer getByName(String name);
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.position = :position where t.name = :tname")
+    void updateTrainerPosition(@Param("tname") String tname, @Param("position") String position);
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.salary = :salary where t.name = :tname")
+    void updateTrainerSalary(@Param("tname") String tname, @Param("salary") String salary);
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.telephone = :telephone where t.name = :tname")
+    void updateTrainerTelephone(@Param("tname") String tname, @Param("telephone") String telephone);
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.email = :email where t.name = :tname")
+    void updateTrainerEmail(@Param("tname") String tname, @Param("email") String email);
+
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.gym = :gym where t.name = :tname")
+    void updateTrainerGym(@Param("tname") String tname, @Param("gym") Gym gym);
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.gym = null where t.name = :tname")
+    void updateTrainerGymIsNull(@Param("tname") String tname);
+
+
+    @Modifying
+    @Query("select t from Trainer t  where t.gym = :gym ")
+    List<Trainer> getTrainerGym(@Param("gym") Gym gym);
 
 }

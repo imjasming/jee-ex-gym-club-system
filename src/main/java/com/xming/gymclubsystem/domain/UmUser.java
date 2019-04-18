@@ -15,7 +15,7 @@ import java.util.List;
  * Created on 2019/03/29 15:10.
  */
 
-@Entity(name = "user")
+@Entity
 @Data
 public class UmUser implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class UmUser implements Serializable {
 
 
     @JoinColumn(name="GYM_ID")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Gym gym;
 
 

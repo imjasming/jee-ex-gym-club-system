@@ -5,12 +5,16 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Data
 @Entity
-public class Trainer {
+public class Trainer implements Serializable {
+
+
     @GeneratedValue
     @Id
     private Integer id;
@@ -21,13 +25,16 @@ public class Trainer {
     private String email;
     private String telephone;
     private double salary;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "trainers")
+
+
+
+    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "trainers")
     @Fetch(FetchMode.SUBSELECT)
     private List<UmUser> umUsers = new LinkedList<>();
 
 
-    @JoinColumn(name = "GYM_ID")
-    @ManyToOne
+    @JoinColumn(name="GYM_ID")
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Gym gym;
 
 
