@@ -2,15 +2,19 @@ package com.xming.gymclubsystem;
 
 import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.Role;
-import com.xming.gymclubsystem.domain.Trainer;
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.repository.GymRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
-import com.xming.gymclubsystem.util.RedisOperator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.annotation.Rollback;
@@ -18,6 +22,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.xming.gymclubsystem.domain.Role.RoleName.ROLE_USER;
 
@@ -35,6 +42,9 @@ public class GymClubSystemApplicationTests {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
+
+	@Autowired
+	private GymRepository gymRepository;
 
 
 
@@ -105,11 +115,11 @@ public class GymClubSystemApplicationTests {
 
 	@Test
 	public void testData(){
-//		Gym gym =new Gym();
-//		gym.setGymName("aaaa");
-//		gym.setLocation("BJTU");
-//
-//		gym = dataService.addGym(gym);
+		Gym gym =new Gym();
+		gym.setGymName("aaaa");
+		gym.setLocation("BJTU");
+
+		gym = dataService.addGym(gym);
 
 		//dataService.updateUmUserGym("chz",gym);
 
@@ -125,11 +135,54 @@ public class GymClubSystemApplicationTests {
 //
 //		trainer = dataService.addTrainer(trainer);
 
-		dataService.deleteUser("cw");
+//		dataService.deleteUser("cw");
 
 
 
 	}
 
+
+	@Test
+	public void testDataRedisCache(){
+
+		System.out.println(dataService.getGym("aaaa"));
+	}
+
+
+
+	@Test
+	public void testAddGyms(){
+		List<Gym> gyms = new ArrayList<>();
+		for (int i = 'a';i<='z';i++){
+			Gym gym = new Gym();
+			gym.setGymName((char)i+""+(char)i);
+			gym.setLocation((char)i+"'s"+" "+"location");
+			gyms.add(gym);
+		}
+
+
+		gymRepository.saveAll(gyms);
+	}
+
+
+	@Test
+	public void testPagingGyms(){
+		//pageNo从0开始
+		int pageNo= 5;
+		int pageSize = 5;
+		//排序相关,封装了排序的信息
+		Sort sort = new Sort(Order.desc("id"));
+		PageRequest pageable = new PageRequest(pageNo,pageSize,sort);
+		Page<Gym> page = gymRepository.findAll(pageable);
+
+		System.out.println("总记录数"+page.getTotalElements());
+		System.out.println("当前第几页"+(page.getNumber()+1));
+		System.out.println("总页数："+page.getTotalPages());
+		System.out.println("当前页面的LIST:"+page.getContent());
+		System.out.println("当前页面的记录数"+page.getNumberOfElements());
+
+
+
+	}
 
 }

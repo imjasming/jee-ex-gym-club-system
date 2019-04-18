@@ -1,34 +1,23 @@
 package com.xming.gymclubsystem.service.impl;
 
 import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.Trainer;
 import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.GymRepository;
 import com.xming.gymclubsystem.repository.RoleRepository;
 import com.xming.gymclubsystem.repository.TrainerRepository;
 import com.xming.gymclubsystem.repository.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
-import com.xming.gymclubsystem.service.JwtUserDetailsService;
-import com.xming.gymclubsystem.service.UserService;
-import com.xming.gymclubsystem.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -51,16 +40,20 @@ public class DataServiceImpl implements DataService {
     private TrainerRepository trainerRepository;
 
 
+
+    @Cacheable(value = "gym",key = "#gymname")
     @Override
     public Gym getGym(String gymname) {
         return gymRepository.findByGymName(gymname);
     }
 
+    @Cacheable(value = "trainer",key = "#tname")
     @Override
     public Trainer getTrainer(String tname) {
         return trainerRepository.getByName(tname);
     }
 
+    @Cacheable(value = "umuser",key = "#uname")
     @Override
     public UmUser getUser(String uname) {
         return userRepository.findByUsername(uname);
@@ -165,6 +158,33 @@ public class DataServiceImpl implements DataService {
         UmUser umUser = null;
         umUser = userRepository.findByUsername(uname);
         userRepository.delete(umUser);
+    }
+
+    @Override
+    public Page<Gym> pagingGyms(int pageNo, int pageSize) {
+
+        Sort sort = new Sort(Sort.Order.asc("id"));
+        PageRequest pageable = new PageRequest(pageNo,pageSize,sort);
+        Page<Gym> page = gymRepository.findAll(pageable);
+        //以下为page使用方法
+
+//        System.out.println("总记录数"+page.getTotalElements());
+//        System.out.println("当前第几页"+(page.getNumber()+1));
+//        System.out.println("总页数："+page.getTotalPages());
+//        System.out.println("当前页面的LIST:"+page.getContent());
+//        System.out.println("当前页面的记录数"+page.getNumberOfElements());
+
+        return page;
+    }
+
+
+    @Override
+    public Page<Trainer> pagingTrains(int pageNo, int pageSize) {
+        Sort sort = new Sort(Sort.Order.asc("id"));
+        PageRequest pageable = new PageRequest(pageNo,pageSize,sort);
+        Page<Trainer> page = trainerRepository.findAll(pageable);
+
+        return page;
     }
 
 

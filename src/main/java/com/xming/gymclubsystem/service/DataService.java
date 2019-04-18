@@ -4,6 +4,7 @@ import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.Trainer;
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
+import org.springframework.data.domain.Page;
 
 /**
  * @author Xiaoming.
@@ -34,4 +35,11 @@ public interface DataService {
     void deleteGym(String gymname);
     void deleteTrainer(String tname);
     void deleteUser(String uname);
+
+
+    //PaginandSort
+    Page<Gym> pagingGyms(int pageNo, int pageSize);
+    Page<Trainer> pagingTrains(int pageNo,int pageSize);
+
+
 }

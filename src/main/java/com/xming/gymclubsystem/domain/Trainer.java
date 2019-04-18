@@ -5,13 +5,14 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Data
 @Entity
-public class Trainer {
+public class Trainer implements Serializable {
 
 
     @GeneratedValue
