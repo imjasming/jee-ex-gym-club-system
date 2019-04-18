@@ -1,7 +1,5 @@
 package com.xming.gymclubsystem.components;
 
-import com.alibaba.fastjson.JSON;
-import com.xming.gymclubsystem.dto.RestResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -25,9 +23,10 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
 
         //log.info("session: " + request.getSession().toString() + "\nrequest" + request.toString());
-        response.setCharacterEncoding("UTF-8");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        /*response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
         response.getWriter().println(JSON.toJSONString(RestResponse.unauthorized(authException.getMessage())));
-        response.getWriter().flush();
+        response.getWriter().flush();*/
     }
 }

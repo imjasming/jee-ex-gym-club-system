@@ -2,6 +2,7 @@ package com.xming.gymclubsystem.service.impl;
 
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.dto.UserInfo;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.RoleRepository;
 import com.xming.gymclubsystem.repository.UserRepository;
@@ -93,8 +94,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(value = "umuser",key = "#username")
+    @Cacheable(value = "umuser", key = "#username")
     public UmUser getUserByName(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserInfo getUserInfoByName(String username) {
+        UserInfo userInfo = new UserInfo();
+        UmUser user = userRepository.findByUsername(username);
+        BeanUtils.copyProperties(user, userInfo);
+        return userInfo;
     }
 }
