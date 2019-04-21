@@ -2,8 +2,8 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.dto.UserInfo;
+import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
-import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //数据库操作service
-    @Autowired
-    private DataService dataService;
-
     @Value("${jwt.tokenHead}")
     private String tokenHead;
     @Value("${jwt.tokenHeader}")
@@ -37,16 +33,16 @@ public class UserController {
 
     @PostMapping(path = "/register")
     public ResponseEntity signUp(
-            //@RequestBody UserSignUpRequest request
-            @RequestParam("username") String username,
+            @RequestBody UserSignUpRequest request
+            /*@RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("email") String email
+            @RequestParam("email") String email*/
     ) {
-        UmUser user = userService.register(new UserSignUpRequest(username, password, email));
+        UmUser user = userService.register(request);
         if (user != null) {
             return ResponseEntity.ok(null);
         } else {
-            return ResponseEntity.badRequest().body("Username or password already exists");
+            return ResponseEntity.badRequest().body("Username or email already exists");
         }
     }
 
@@ -73,5 +69,12 @@ public class UserController {
         final String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
         UserInfo userInfo = userService.getUserInfoByName(username);
         return userInfo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(userInfo);
+    }
+
+    @PostMapping("/user/{username}/update-profile")
+    public ResponseEntity updateProfile(@PathVariable String username, @RequestBody UserProfile newProfile) {
+        newProfile.setUsername(username);
+        UserInfo info = userService.updateProfile(newProfile);
+        return info != null ? ResponseEntity.ok(info) : ResponseEntity.badRequest().body("Profile update failed");
     }
 }

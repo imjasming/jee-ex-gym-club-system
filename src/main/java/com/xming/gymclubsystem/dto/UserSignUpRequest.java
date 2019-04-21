@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.dto;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -9,9 +10,15 @@ import java.io.Serializable;
 public class UserSignUpRequest implements Serializable {
     private static final long serialVersionUID = 8660911965863240049L;
 
+    @NotEmpty(message = "username can't be empty")
     private String username;
+    @NotEmpty(message = "password can't be empty")
     private String password;
+    @NotEmpty(message = "email can't be empty")
     private String email;
+
+    public UserSignUpRequest() {
+    }
 
     public UserSignUpRequest(String username, String password, String email) {
         this.username = username;

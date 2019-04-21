@@ -8,7 +8,6 @@ import com.xming.gymclubsystem.repository.RoleRepository;
 import com.xming.gymclubsystem.repository.TrainerRepository;
 import com.xming.gymclubsystem.repository.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -17,14 +16,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
 
 /**
  * @author Xiaoming.
  * Created on 2019/03/29 20:46.
  */
-@Slf4j
 @Service("dataService")
 public class DataServiceImpl implements DataService {
     @Autowired
