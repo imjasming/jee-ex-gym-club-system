@@ -2,6 +2,8 @@ package com.xming.gymclubsystem.service.impl;
 
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.dto.UserInfo;
+import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.RoleRepository;
 import com.xming.gymclubsystem.repository.UserRepository;
@@ -49,6 +51,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    private UserInfo getInfoByUser(UmUser user) {
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        return userInfo;
+    }
 
     @Override
     public UmUser register(UserSignUpRequest signUpParam) {
@@ -93,8 +100,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(value = "umuser",key = "#username")
+    @Cacheable(value = "umuser", key = "#username")
     public UmUser getUserByName(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public UserInfo getUserInfoByName(String username) {
+        UmUser user = userRepository.findByUsername(username);
+        return getInfoByUser(user);
+    }
+
+    @Override
+    public UserInfo updateProfile(UserProfile newProfile) {
+        final String email = newProfile.getEmail();
+        final String username = newProfile.getUsername();
+        if (userRepository.existsByEmail(email)) {
+            return null;
+        }
+        userRepository.updateUmUserEmail(username, email);
+        return getInfoByUser(userRepository.findByUsername(username));
+    }
+
+
 }

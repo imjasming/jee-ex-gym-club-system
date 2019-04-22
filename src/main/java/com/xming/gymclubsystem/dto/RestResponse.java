@@ -80,20 +80,22 @@ public class RestResponse implements Serializable {
 
         @Override
         public IBuilder withMessage(String message) {
-            return null;
+            this.message = message;
+            return this;
         }
 
         @Override
         public IBuilder withData(Object data) {
-            return null;
+            this.data = data;
+            return this;
         }
 
         @Override
         public RestResponse build() {
             return new RestResponse(
-                    this.code
-                    , this.message
-                    , this.data);
+                    this.code,
+                    this.message,
+                    this.data);
         }
     }
 }

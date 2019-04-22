@@ -25,7 +25,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * @author Xiaoming.
  * Created on 2019/02/07 23:48.
- * Description :
+ * Description : 人间正道是沧桑，以下代码全是坑 艹
  */
 @Configuration
 @EnableWebSecurity
@@ -53,13 +53,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
-                        "/**/*.js"
+                        "/**/*.js",
+                        "/img/*"
                 ).permitAll()
                 .antMatchers("/login", "/register").permitAll()// 对登录注册要允许匿名访问
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .logout().permitAll()
+                .and().cors()  //csrf被禁用后,如果使用跨域,就导致axios不能获取正常error.response
         ;
 
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
@@ -97,13 +99,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("*");  // 1 设置访问源地址
         config.setAllowCredentials(true);
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
+        config.addAllowedHeader("*");  // 2 设置访问源请求头
+        config.addAllowedMethod("*");  // 3 设置访问源请求方法
+        //config.addExposedHeader("Content-Range");//这里是需要额外配置的header内容
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);  // 4 对接口配置跨域设置
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(0);
         return new CorsFilter(source);

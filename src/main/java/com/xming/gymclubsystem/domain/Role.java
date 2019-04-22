@@ -21,12 +21,12 @@ public class Role implements Serializable {
     @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
     private int id;
 
-    @Column(name = "name", nullable = false,unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "roles")
-    private List<UmUser> users =new LinkedList<>();
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+    private List<UmUser> users = new LinkedList<>();
 
     public Role(RoleName roleName) {
         this.name = roleName;
@@ -40,7 +40,6 @@ public class Role implements Serializable {
     public String toString() {
         return this.name.toString();
     }
-
 
 
 }
