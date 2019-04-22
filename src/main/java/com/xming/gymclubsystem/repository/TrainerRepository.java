@@ -29,7 +29,7 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> , JpaSpe
 
     @Modifying
     @Query("UPDATE Trainer t set t.salary = :salary where t.name = :tname")
-    void updateTrainerSalary(@Param("tname") String tname, @Param("salary") String salary);
+    void updateTrainerSalary(@Param("tname") String tname, @Param("salary") Double salary);
 
     @Modifying
     @Query("UPDATE Trainer t set t.telephone = :telephone where t.name = :tname")

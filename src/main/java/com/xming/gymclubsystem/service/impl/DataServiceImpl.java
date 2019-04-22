@@ -71,7 +71,7 @@ public class DataServiceImpl implements DataService {
 
     @Transactional
     @Override
-    public void updateTrainerSalary(String tname, String Salary) {
+    public void updateTrainerSalary(String tname, Double Salary) {
         trainerRepository.updateTrainerSalary(tname, Salary);
     }
 

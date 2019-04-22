@@ -4,6 +4,7 @@ import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.UmUser;
 import com.xming.gymclubsystem.repository.GymRepository;
+import com.xming.gymclubsystem.repository.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import org.junit.Test;
@@ -45,6 +46,9 @@ public class GymClubSystemApplicationTests {
 
 	@Autowired
 	private GymRepository gymRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
 
@@ -184,5 +188,26 @@ public class GymClubSystemApplicationTests {
 
 
 	}
+
+
+
+	@Test
+    public void testUpdating(){
+
+        //dataService.updateGymlocation("aa","bjtu");
+
+//        dataService.updateTrainerPosition("cw","BOSS");
+//        dataService.updateTrainerEmail("cw","BOSS");
+//        dataService.updateTrainerSalary("cw",4578.056);
+//        dataService.updateTrainerTelephone("cw","18801130810");
+//        dataService.updateUmUserEmail("cw","18801130810");
+
+        //userRepository.updateUmUserEmail("cw","sasdasdas");
+
+
+
+
+    }
+
 
 }
