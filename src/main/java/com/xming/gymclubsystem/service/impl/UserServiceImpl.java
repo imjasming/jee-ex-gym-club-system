@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Date;
@@ -111,6 +112,7 @@ public class UserServiceImpl implements UserService {
         return getInfoByUser(user);
     }
 
+    @Transactional
     @Override
     public UserInfo updateProfile(UserProfile newProfile) {
         final String email = newProfile.getEmail();
@@ -121,6 +123,5 @@ public class UserServiceImpl implements UserService {
         userRepository.updateUmUserEmail(username, email);
         return getInfoByUser(userRepository.findByUsername(username));
     }
-
 
 }
