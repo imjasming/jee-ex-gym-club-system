@@ -52,4 +52,13 @@ public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecifi
     @Modifying
     @Query("select u from UmUser u  where u.gym = :gym ")
     List<UmUser> getUmUserGym(@Param("gym") Gym gym);
+
+    @Modifying
+    @Query("UPDATE UmUser u set u.password = :password where u.username = :username")
+    void updateUmUserPassword(@Param("username") String username,@Param("password") String password);
+
+    @Modifying
+    @Query("UPDATE UmUser u set u.intro = :intro where u.username = :username")
+    void updateUmUserIntro(@Param("username") String username,@Param("intro") String intro);
+
 }

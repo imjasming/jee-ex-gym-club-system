@@ -15,6 +15,7 @@ public class Gym implements Serializable {
     private Integer id;
     private String gymName;
     private String location;
+    private String intro;
 
     @Override
     public String toString() {
@@ -22,6 +23,7 @@ public class Gym implements Serializable {
                 "id=" + id +
                 ", gymName='" + gymName + '\'' +
                 ", location='" + location + '\'' +
+                ", intro='" + intro + '\'' +
                 '}';
     }
 }

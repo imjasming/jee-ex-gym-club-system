@@ -200,7 +200,7 @@ public class GymClubSystemApplicationTests {
 //        dataService.updateTrainerEmail("cw","BOSS");
 //        dataService.updateTrainerSalary("cw",4578.056);
 //        dataService.updateTrainerTelephone("cw","18801130810");
-//        dataService.updateUmUserEmail("cw","18801130810");
+       dataService.updateUmUserEmail("cw","18801130810");
 
         //userRepository.updateUmUserEmail("cw","sasdasdas");
 
@@ -209,5 +209,15 @@ public class GymClubSystemApplicationTests {
 
     }
 
+    @Test
+    public void testChangePassword(){
+	    dataService.changePassword("cw","4654646");
+    }
+
+
+    @Test
+    public void updateIntro(){
+        dataService.updateUserIntro("cw","asdfasdasdfasdf");
+    }
 
 }

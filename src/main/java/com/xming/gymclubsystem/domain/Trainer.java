@@ -25,6 +25,7 @@ public class Trainer implements Serializable {
     private String email;
     private String telephone;
     private double salary;
+    private String intro;
 
 
 
@@ -48,6 +49,9 @@ public class Trainer implements Serializable {
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", salary=" + salary +
+                ", intro='" + intro + '\'' +
+                ", umUsers=" + umUsers +
+                ", gym=" + gym +
                 '}';
     }
 }

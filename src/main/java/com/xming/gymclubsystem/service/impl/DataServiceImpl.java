@@ -102,6 +102,24 @@ public class DataServiceImpl implements DataService {
         userRepository.updateUmUserGym(uname, gym);
     }
 
+    @Transactional
+    @Override
+    public void updateGymIntro(String gymname, String intro) {
+        gymRepository.updateGymIntro(gymname,intro);
+    }
+
+    @Transactional
+    @Override
+    public void updateTrainerIntro(String tname, String intro) {
+        trainerRepository.updateTrainerIntro(tname,intro);
+    }
+
+    @Transactional
+    @Override
+    public void updateUserIntro(String uname, String intro) {
+        userRepository.updateUmUserIntro(uname,intro);
+    }
+
 
     @Override
     public Gym addGym(Gym gym) {
@@ -185,6 +203,13 @@ public class DataServiceImpl implements DataService {
         Page<Trainer> page = trainerRepository.findAll(pageable);
 
         return page;
+    }
+
+
+    @Transactional
+    @Override
+    public void changePassword(String uname,String password) {
+        userRepository.updateUmUserPassword(uname,password);
     }
 
 

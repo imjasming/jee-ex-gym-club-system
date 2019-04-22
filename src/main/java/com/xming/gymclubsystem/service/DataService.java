@@ -26,6 +26,11 @@ public interface DataService {
 
     void updateUmUserGym(String uname,Gym gym);
 
+    void updateGymIntro(String gymname,String intro);
+    void updateTrainerIntro(String tname,String intro);
+    void updateUserIntro(String uname,String intro);
+
+
     //add
     Gym addGym(Gym gym);
     Trainer addTrainer(Trainer trainer);
@@ -40,6 +45,11 @@ public interface DataService {
     //PaginandSort
     Page<Gym> pagingGyms(int pageNo, int pageSize);
     Page<Trainer> pagingTrains(int pageNo,int pageSize);
+
+
+    //changePassword
+    void changePassword(String uname,String password);
+
 
 
 }

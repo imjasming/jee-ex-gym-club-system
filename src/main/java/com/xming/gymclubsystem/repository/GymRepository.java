@@ -22,4 +22,9 @@ public interface GymRepository extends JpaRepository<Gym, Long> , JpaSpecificati
     @Query("UPDATE Gym g set g.location = :locations where g.gymName = :gname")
     void updateGymLocation(@Param("gname") String gname,@Param("locations") String locations);
 
+    @Modifying
+    @Query("UPDATE Gym g set g.intro = :intro where g.gymName = :gname")
+    void updateGymIntro(@Param("gname") String gname,@Param("intro") String intro);
+
+
 }
