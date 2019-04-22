@@ -203,11 +203,6 @@ public class DataServiceImpl implements DataService {
     }
 
 
-    @Transactional
-    @Override
-    public void changePassword(String uname,String password) {
-        userRepository.updateUmUserPassword(uname,password);
-    }
 
 
 }

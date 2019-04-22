@@ -47,8 +47,7 @@ public interface DataService {
     Page<Trainer> pagingTrains(int pageNo,int pageSize);
 
 
-    //changePassword
-    void changePassword(String uname,String password);
+
 
 
 

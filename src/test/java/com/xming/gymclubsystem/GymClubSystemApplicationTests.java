@@ -211,7 +211,7 @@ public class GymClubSystemApplicationTests {
 
     @Test
     public void testChangePassword(){
-	    dataService.changePassword("cw","4654646");
+	    userService.changePassword("cw","啊手动阀手动阀");
     }
 
 
