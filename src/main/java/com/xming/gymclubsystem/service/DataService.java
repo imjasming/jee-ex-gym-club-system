@@ -19,7 +19,7 @@ public interface DataService {
     //update
     void updateGymlocation(String gymname,String location);
     void updateTrainerPosition(String tname,String position);
-    void  updateTrainerSalary(String tname,String Salary);
+    void  updateTrainerSalary(String tname,Double Salary);
     void updateTrainerTelephone(String tname,String telephone);
     void updateTrainerEmail(String tname,String Email);
     void updateUmUserEmail(String uname,String Email);
