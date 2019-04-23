@@ -116,19 +116,19 @@ public class DataServiceImpl implements DataService {
     @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateGymIntro(String gymname, String intro) {
-        gymRepository.updateGymIntro(gymname,intro);
+        gymRepository.updateGymIntro(gymname, intro);
     }
 
     @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerIntro(String tname, String intro) {
-        trainerRepository.updateTrainerIntro(tname,intro);
+        trainerRepository.updateTrainerIntro(tname, intro);
     }
 
     @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateUserIntro(String uname, String intro) {
-        userRepository.updateUmUserIntro(uname,intro);
+        userRepository.updateUmUserIntro(uname, intro);
     }
 
     @Transactional(value = "transactionManagerPrimary")
@@ -230,8 +230,6 @@ public class DataServiceImpl implements DataService {
 
         return page;
     }
-
-
 
 
 }

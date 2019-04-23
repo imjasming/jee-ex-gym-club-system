@@ -57,10 +57,10 @@ public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecifi
 
     @Modifying
     @Query("UPDATE UmUser u set u.password = :password where u.username = :username")
-    void updateUmUserPassword(@Param("username") String username,@Param("password") String password);
+    void updateUmUserPassword(@Param("username") String username, @Param("password") String password);
 
     @Modifying
     @Query("UPDATE UmUser u set u.intro = :intro where u.username = :username")
-    void updateUmUserIntro(@Param("username") String username,@Param("intro") String intro);
+    void updateUmUserIntro(@Param("username") String username, @Param("intro") String intro);
 
 }

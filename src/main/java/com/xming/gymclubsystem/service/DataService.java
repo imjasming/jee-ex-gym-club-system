@@ -1,9 +1,9 @@
 package com.xming.gymclubsystem.service;
 
-import com.xming.gymclubsystem.domain.primary.Gym;
-import com.xming.gymclubsystem.domain.primary.Role;
-import com.xming.gymclubsystem.domain.primary.Trainer;
-import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.domain.Gym;
+import com.xming.gymclubsystem.domain.Trainer;
+import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

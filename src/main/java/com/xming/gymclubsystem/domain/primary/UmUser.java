@@ -42,7 +42,6 @@ public class UmUser implements Serializable {
 
     private String intro;
 
-
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)

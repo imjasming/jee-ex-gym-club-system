@@ -112,6 +112,7 @@ public class UserServiceImpl implements UserService {
         return getInfoByUser(user);
     }
 
+    @Transactional
     @Override
     public UserInfo updateProfile(UserProfile newProfile) {
         final String email = newProfile.getEmail();
@@ -126,8 +127,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(value = "transactionManagerPrimary")
     @Override
-    public void changePassword(String uname,String password) {
-        userRepository.updateUmUserPassword(uname,password);
+    public void changePassword(String uname, String password) {
+        userRepository.updateUmUserPassword(uname, password);
     }
 
 }
