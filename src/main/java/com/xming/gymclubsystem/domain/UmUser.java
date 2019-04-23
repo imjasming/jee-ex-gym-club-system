@@ -40,6 +40,8 @@ public class UmUser implements Serializable {
 
     private boolean enable;
 
+    private String intro;
+
     @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "uid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -81,6 +83,7 @@ public class UmUser implements Serializable {
                 ", nickname='" + nickname + '\'' +
                 ", lastPasswordReset=" + lastPasswordReset +
                 ", enable=" + enable +
+                ", intro='" + intro + '\'' +
                 ", roles=" + roles +
                 ", gym=" + gym +
                 ", trainers=" + trainers +

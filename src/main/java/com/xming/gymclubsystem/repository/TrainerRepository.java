@@ -1,7 +1,6 @@
 package com.xming.gymclubsystem.repository;
 
 import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Role;
 import com.xming.gymclubsystem.domain.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -21,11 +20,9 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> , JpaSpe
 
     Trainer getByName(String name);
 
-
     @Modifying
     @Query("UPDATE Trainer t set t.position = :position where t.name = :tname")
     void updateTrainerPosition(@Param("tname") String tname, @Param("position") String position);
-
 
     @Modifying
     @Query("UPDATE Trainer t set t.salary = :salary where t.name = :tname")
@@ -39,6 +36,11 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> , JpaSpe
     @Modifying
     @Query("UPDATE Trainer t set t.email = :email where t.name = :tname")
     void updateTrainerEmail(@Param("tname") String tname, @Param("email") String email);
+
+
+    @Modifying
+    @Query("UPDATE Trainer t set t.intro = :intro where t.name = :tname")
+    void updateTrainerIntro(@Param("tname") String tname, @Param("intro") String intro);
 
 
 

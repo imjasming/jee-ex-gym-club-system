@@ -6,15 +6,12 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 @Data
 @Entity
 public class Trainer implements Serializable {
-
-
     @GeneratedValue
     @Id
     private Integer id;
@@ -25,18 +22,15 @@ public class Trainer implements Serializable {
     private String email;
     private String telephone;
     private double salary;
-
-
+    private String intro;
 
     @ManyToMany(fetch = FetchType.EAGER,mappedBy = "trainers")
     @Fetch(FetchMode.SUBSELECT)
     private List<UmUser> umUsers = new LinkedList<>();
 
-
     @JoinColumn(name="GYM_ID")
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Gym gym;
-
 
     @Override
     public String toString() {
@@ -48,6 +42,9 @@ public class Trainer implements Serializable {
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", salary=" + salary +
+                ", intro='" + intro + '\'' +
+                ", umUsers=" + umUsers +
+                ", gym=" + gym +
                 '}';
     }
 }

@@ -3,7 +3,6 @@ package com.xming.gymclubsystem.service;
 import com.xming.gymclubsystem.domain.Gym;
 import com.xming.gymclubsystem.domain.Trainer;
 import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import org.springframework.data.domain.Page;
 
 /**
@@ -25,6 +24,13 @@ public interface DataService {
     void updateUmUserEmail(String uname,String Email);
 
     void updateUmUserGym(String uname,Gym gym);
+
+    void updateGymIntro(String gymname, String intro);
+
+    void updateTrainerIntro(String tname, String intro);
+
+    void updateUserIntro(String uname, String intro);
+
 
     //add
     Gym addGym(Gym gym);

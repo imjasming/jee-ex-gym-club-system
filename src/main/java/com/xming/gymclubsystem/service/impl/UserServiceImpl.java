@@ -124,4 +124,11 @@ public class UserServiceImpl implements UserService {
         return getInfoByUser(userRepository.findByUsername(username));
     }
 
+
+    @Transactional
+    @Override
+    public void changePassword(String uname, String password) {
+        userRepository.updateUmUserPassword(uname, password);
+    }
+
 }

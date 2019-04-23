@@ -1,7 +1,6 @@
 package com.xming.gymclubsystem.repository;
 
 import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -21,5 +20,10 @@ public interface GymRepository extends JpaRepository<Gym, Long> , JpaSpecificati
     @Modifying
     @Query("UPDATE Gym g set g.location = :locations where g.gymName = :gname")
     void updateGymLocation(@Param("gname") String gname,@Param("locations") String locations);
+
+    @Modifying
+    @Query("UPDATE Gym g set g.intro = :intro where g.gymName = :gname")
+    void updateGymIntro(@Param("gname") String gname, @Param("intro") String intro);
+
 
 }

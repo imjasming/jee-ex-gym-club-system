@@ -20,5 +20,6 @@ public interface UserService {
 
     UserInfo updateProfile(UserProfile newProfile);
 
-
+    //changePassword
+    void changePassword(String uname, String password);
 }
