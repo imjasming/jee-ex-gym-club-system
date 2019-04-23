@@ -1,7 +1,7 @@
 package com.xming.gymclubsystem.bo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

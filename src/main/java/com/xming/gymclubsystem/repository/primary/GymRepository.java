@@ -1,7 +1,6 @@
-package com.xming.gymclubsystem.repository;
+package com.xming.gymclubsystem.repository.primary;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Role;
+import com.xming.gymclubsystem.domain.primary.Gym;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

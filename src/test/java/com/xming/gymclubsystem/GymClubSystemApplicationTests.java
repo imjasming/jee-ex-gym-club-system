@@ -1,19 +1,21 @@
 package com.xming.gymclubsystem;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Role;
-import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.repository.GymRepository;
-import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.domain.primary.Gym;
+import com.xming.gymclubsystem.domain.primary.Role;
+import com.xming.gymclubsystem.domain.primary.Trainer;
+import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.repository.primary.GymRepository;
+import com.xming.gymclubsystem.repository.primary.RoleRepository;
+import com.xming.gymclubsystem.repository.primary.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -27,7 +29,7 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.xming.gymclubsystem.domain.Role.RoleName.ROLE_USER;
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
 
 /**
  * 使用Spring提供的Junit的运行器
@@ -39,6 +41,7 @@ public class GymClubSystemApplicationTests {
 
 
 	@Autowired
+	@Qualifier(value = "entityManagerPrimary")
 	private EntityManager em;
 
 	@Autowired
@@ -49,6 +52,9 @@ public class GymClubSystemApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 
 
@@ -94,10 +100,10 @@ public class GymClubSystemApplicationTests {
 
         //保存
 
-		em.persist(role1);
-        em.persist(role2);
-		em.persist(user1);
-		em.persist(user2);
+		roleRepository.save(role1);
+		roleRepository.save(role2);
+		userRepository.save(user1);
+		userRepository.save(user2);
 
 
 
@@ -200,12 +206,9 @@ public class GymClubSystemApplicationTests {
 //        dataService.updateTrainerEmail("cw","BOSS");
 //        dataService.updateTrainerSalary("cw",4578.056);
 //        dataService.updateTrainerTelephone("cw","18801130810");
-       dataService.updateUmUserEmail("cw","18801130810");
+       //dataService.updateUmUserEmail("cw","18801130810");
 
         //userRepository.updateUmUserEmail("cw","sasdasdas");
-
-
-
 
     }
 
@@ -220,4 +223,24 @@ public class GymClubSystemApplicationTests {
         dataService.updateUserIntro("cw","asdfasdasdfasdf");
     }
 
+	@Test
+	public void addTrainer(){
+		Trainer trainer = new Trainer();
+		trainer.setAge(18);
+		trainer.setEmail("ss@qq.com");
+
+		trainer.setName("chz");
+		trainer.setPosition("PE");
+		trainer.setSalary(20000.3);
+		trainer.setTelephone("18801130810");
+
+
+		dataService.addUserTrainer("cw",trainer);
+	}
+
+	@Test
+	public void getTrainers(){
+
+		System.out.println(dataService.getUserTrainers("cw").size());
+	}
 }

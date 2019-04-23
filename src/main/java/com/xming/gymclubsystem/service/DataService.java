@@ -1,10 +1,12 @@
 package com.xming.gymclubsystem.service;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Trainer;
-import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpRequest;
+import com.xming.gymclubsystem.domain.primary.Gym;
+import com.xming.gymclubsystem.domain.primary.Role;
+import com.xming.gymclubsystem.domain.primary.Trainer;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * @author Xiaoming.
@@ -15,6 +17,11 @@ public interface DataService {
     Gym getGym(String gymname);
     Trainer getTrainer(String tname);
     UmUser getUser(String uname);
+    List<Trainer> getUserTrainers(String uname);
+    List<UmUser> getTrainerUsers(String tname);
+
+
+
 
     //update
     void updateGymlocation(String gymname,String location);
@@ -35,6 +42,8 @@ public interface DataService {
     Gym addGym(Gym gym);
     Trainer addTrainer(Trainer trainer);
     UmUser addUser(UmUser umUser);
+    Role addRole(Role role);
+    void addUserTrainer(String uname, Trainer trainers);
 
     //delete
     void deleteGym(String gymname);

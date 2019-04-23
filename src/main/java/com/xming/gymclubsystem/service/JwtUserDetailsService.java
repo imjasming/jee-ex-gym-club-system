@@ -1,8 +1,8 @@
 package com.xming.gymclubsystem.service;
 
 import com.xming.gymclubsystem.bo.JwtUserDetails;
-import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.repository.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

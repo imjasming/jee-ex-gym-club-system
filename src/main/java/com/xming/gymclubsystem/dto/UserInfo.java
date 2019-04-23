@@ -1,6 +1,6 @@
 package com.xming.gymclubsystem.dto;
 
-import com.xming.gymclubsystem.domain.Trainer;
+import com.xming.gymclubsystem.domain.primary.Trainer;
 
 import java.util.LinkedList;
 import java.util.List;

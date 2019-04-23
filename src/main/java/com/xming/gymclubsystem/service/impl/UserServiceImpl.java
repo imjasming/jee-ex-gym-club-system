@@ -1,12 +1,12 @@
 package com.xming.gymclubsystem.service.impl;
 
-import com.xming.gymclubsystem.domain.Role;
-import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.domain.primary.Role;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.dto.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
-import com.xming.gymclubsystem.repository.RoleRepository;
-import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.repository.primary.RoleRepository;
+import com.xming.gymclubsystem.repository.primary.UserRepository;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import com.xming.gymclubsystem.service.UserService;
 import com.xming.gymclubsystem.util.JwtTokenUtil;
@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void changePassword(String uname,String password) {
         userRepository.updateUmUserPassword(uname,password);

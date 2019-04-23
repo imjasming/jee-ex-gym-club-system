@@ -1,8 +1,8 @@
 package com.xming.gymclubsystem.util;
 
-import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.dto.UserInfo;
-import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.repository.primary.UserRepository;
 import org.springframework.beans.BeanUtils;
 
 /**

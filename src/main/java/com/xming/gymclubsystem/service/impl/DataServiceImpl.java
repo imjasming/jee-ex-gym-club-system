@@ -1,12 +1,13 @@
 package com.xming.gymclubsystem.service.impl;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Trainer;
-import com.xming.gymclubsystem.domain.UmUser;
-import com.xming.gymclubsystem.repository.GymRepository;
-import com.xming.gymclubsystem.repository.RoleRepository;
-import com.xming.gymclubsystem.repository.TrainerRepository;
-import com.xming.gymclubsystem.repository.UserRepository;
+import com.xming.gymclubsystem.domain.primary.Gym;
+import com.xming.gymclubsystem.domain.primary.Role;
+import com.xming.gymclubsystem.domain.primary.Trainer;
+import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.repository.primary.GymRepository;
+import com.xming.gymclubsystem.repository.primary.RoleRepository;
+import com.xming.gymclubsystem.repository.primary.TrainerRepository;
+import com.xming.gymclubsystem.repository.primary.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,65 +58,87 @@ public class DataServiceImpl implements DataService {
         return userRepository.findByUsername(uname);
     }
 
-    @Transactional
+    @Override
+    public List<Trainer> getUserTrainers(String uname) {
+        List<Trainer> trainers = userRepository.findByUsername(uname).getTrainers();
+        return trainers;
+    }
+
+    @Override
+    public List<UmUser> getTrainerUsers(String tname) {
+        List<UmUser> umUsers = trainerRepository.getByName(tname).getUmUsers();
+        return umUsers;
+    }
+
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateGymlocation(String gymname, String location) {
         gymRepository.updateGymLocation(gymname, location);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerPosition(String tname, String position) {
 
         trainerRepository.updateTrainerPosition(tname, position);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerSalary(String tname, Double Salary) {
         trainerRepository.updateTrainerSalary(tname, Salary);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerTelephone(String tname, String telephone) {
         trainerRepository.updateTrainerTelephone(tname, telephone);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerEmail(String tname, String Email) {
         trainerRepository.updateTrainerEmail(tname, Email);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateUmUserEmail(String uname, String Email) {
         userRepository.updateUmUserEmail(uname, Email);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateUmUserGym(String uname, Gym gym) {
         userRepository.updateUmUserGym(uname, gym);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateGymIntro(String gymname, String intro) {
         gymRepository.updateGymIntro(gymname,intro);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateTrainerIntro(String tname, String intro) {
         trainerRepository.updateTrainerIntro(tname,intro);
     }
 
-    @Transactional
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void updateUserIntro(String uname, String intro) {
         userRepository.updateUmUserIntro(uname,intro);
+    }
+
+    @Transactional(value = "transactionManagerPrimary")
+    @Override
+    public void addUserTrainer(String uname, Trainer trainer) {
+        trainerRepository.save(trainer);
+        UmUser umUser =null;
+        umUser = userRepository.findByUsername(uname);
+        umUser.getTrainers().add(trainer);
+        userRepository.save(umUser);
     }
 
 
@@ -133,7 +157,12 @@ public class DataServiceImpl implements DataService {
         return userRepository.save(umUser);
     }
 
-    @Transactional
+    @Override
+    public Role addRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+    @Transactional(value = "transactionManagerPrimary")
     @Override
     public void deleteGym(String gymname) {
         Gym gym = null;

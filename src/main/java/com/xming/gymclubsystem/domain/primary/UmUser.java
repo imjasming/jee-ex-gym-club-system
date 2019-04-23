@@ -1,4 +1,4 @@
-package com.xming.gymclubsystem.domain;
+package com.xming.gymclubsystem.domain.primary;
 
 import lombok.Data;
 import org.hibernate.annotations.Fetch;

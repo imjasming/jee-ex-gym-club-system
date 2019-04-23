@@ -1,6 +1,6 @@
 package com.xming.gymclubsystem.service;
 
-import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.dto.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;

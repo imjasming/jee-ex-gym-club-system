@@ -1,7 +1,8 @@
-package com.xming.gymclubsystem.repository;
+package com.xming.gymclubsystem.repository.primary;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.UmUser;
+import com.xming.gymclubsystem.domain.primary.Gym;
+import com.xming.gymclubsystem.domain.primary.Trainer;
+import com.xming.gymclubsystem.domain.primary.UmUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -52,6 +53,7 @@ public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecifi
     @Modifying
     @Query("select u from UmUser u  where u.gym = :gym ")
     List<UmUser> getUmUserGym(@Param("gym") Gym gym);
+
 
     @Modifying
     @Query("UPDATE UmUser u set u.password = :password where u.username = :username")
