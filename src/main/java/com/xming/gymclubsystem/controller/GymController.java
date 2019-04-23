@@ -1,7 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
-import com.xming.gymclubsystem.domain.Gym;
-import com.xming.gymclubsystem.domain.Trainer;
+import com.xming.gymclubsystem.domain.primary.Gym;
+import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
