@@ -225,17 +225,17 @@ public class GymClubSystemApplicationTests {
 
 	@Test
 	public void addTrainer(){
-		Trainer trainer = new Trainer();
-		trainer.setAge(18);
-		trainer.setEmail("ss@qq.com");
-
-		trainer.setName("chz");
-		trainer.setPosition("PE");
-		trainer.setSalary(20000.3);
-		trainer.setTelephone("18801130810");
-
-
-		dataService.addUserTrainer("cw",trainer);
+//		Trainer trainer = new Trainer();
+//		trainer.setAge(18);
+//		trainer.setEmail("ss@qq.com");
+//
+//		trainer.setName("chz");
+//		trainer.setPosition("PE");
+//		trainer.setSalary(20000.3);
+//		trainer.setTelephone("18801130810");
+//
+//		dataService.addUserTrainer("cw",trainer);
+		dataService.addUserTrainerByID("cw",4);
 	}
 
 	@Test

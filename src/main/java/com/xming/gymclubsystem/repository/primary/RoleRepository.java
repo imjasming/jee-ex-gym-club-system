@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * Description :This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
  * CRUD refers Create, Read, Update, Delete
  */
-public interface RoleRepository extends JpaRepository<Role, Long> , JpaSpecificationExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, Integer> , JpaSpecificationExecutor<Role> {
 
 
 }

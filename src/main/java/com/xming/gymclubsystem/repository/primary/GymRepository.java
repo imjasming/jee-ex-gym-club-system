@@ -13,7 +13,7 @@ import org.springframework.data.repository.query.Param;
  * Description :This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
  * CRUD refers Create, Read, Update, Delete
  */
-public interface GymRepository extends JpaRepository<Gym, Long> , JpaSpecificationExecutor<Gym> {
+public interface GymRepository extends JpaRepository<Gym, Integer> , JpaSpecificationExecutor<Gym> {
 
     Gym findByGymName(String name);
 

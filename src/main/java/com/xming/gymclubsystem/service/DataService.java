@@ -46,6 +46,8 @@ public interface DataService {
     Role addRole(Role role);
     void addUserTrainer(String uname, Trainer trainer);
 
+    void addUserTrainerByID(String uname, Integer id);
+
     //delete
     void deleteGym(String gymname);
     void deleteTrainer(String tname);

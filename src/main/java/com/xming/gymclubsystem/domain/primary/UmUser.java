@@ -22,7 +22,7 @@ public class UmUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, unique = true, length = 50)
     private String username;
@@ -61,12 +61,12 @@ public class UmUser implements Serializable {
     public UmUser() {
     }
 
-    public UmUser(Long id, String password) {
+    public UmUser(Integer id, String password) {
         this.id = id;
         this.password = password;
     }
 
-    public UmUser(Long id, String username, String password, String email) {
+    public UmUser(Integer id, String username, String password, String email) {
         this.id = id;
         this.username = username;
         this.password = password;

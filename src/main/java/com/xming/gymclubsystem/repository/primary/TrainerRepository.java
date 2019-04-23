@@ -16,7 +16,7 @@ import java.util.List;
  * Description :This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
  * CRUD refers Create, Read, Update, Delete
  */
-public interface TrainerRepository extends JpaRepository<Trainer, Long> , JpaSpecificationExecutor<Trainer> {
+public interface TrainerRepository extends JpaRepository<Trainer, Integer> , JpaSpecificationExecutor<Trainer> {
 
     Trainer getByName(String name);
 

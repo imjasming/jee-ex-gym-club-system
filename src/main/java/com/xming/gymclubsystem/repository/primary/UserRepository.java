@@ -19,7 +19,7 @@ import java.util.List;
  * CRUD refers Create, Read, Update, Delete
  */
 
-public interface UserRepository extends JpaRepository<UmUser, Long> , JpaSpecificationExecutor<UmUser> {
+public interface UserRepository extends JpaRepository<UmUser, Integer> , JpaSpecificationExecutor<UmUser> {
 
     UmUser findByUsername(String username);
 

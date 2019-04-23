@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Xiaoming.
@@ -138,6 +139,14 @@ public class DataServiceImpl implements DataService {
         UmUser umUser =null;
         umUser = userRepository.findByUsername(uname);
         umUser.getTrainers().add(trainer);
+        userRepository.save(umUser);
+    }
+
+    @Override
+    public void addUserTrainerByID(String uname, Integer id) {
+        UmUser umUser =null;
+        umUser = userRepository.findByUsername(uname);
+        umUser.getTrainers().add(trainerRepository.findById(id).get());
         userRepository.save(umUser);
     }
 
