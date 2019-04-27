@@ -1,5 +1,7 @@
 package com.xming.gymclubsystem.domain.primary;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -27,6 +29,7 @@ public class UmUser implements Serializable {
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false, length = 128)
     private String password;
 
@@ -38,6 +41,7 @@ public class UmUser implements Serializable {
     @Column
     private Date lastPasswordReset;
 
+    @JsonIgnore
     private boolean enable;
 
     private String intro;
@@ -46,6 +50,7 @@ public class UmUser implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "rid", referencedColumnName = "id")})
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    @JsonIgnoreProperties(ignoreUnknown = true, value = {"users"})
     private List<Role> roles = new LinkedList<>();
 
     @JoinColumn(name="GYM_ID")
@@ -56,6 +61,10 @@ public class UmUser implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "tid", referencedColumnName = "id")})
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 巨TMD坑
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @JsonIgnoreProperties(ignoreUnknown = true, value = {"users"})
     private List<Trainer> trainers = new LinkedList<>();
 
     public UmUser() {

@@ -51,6 +51,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
                 logger.warn("the token is expired and not valid anymore", e);
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.sendError(HttpServletResponse.SC_FORBIDDEN, "invalid token");
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -64,12 +67,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             }
         }
 
-        log.info("from: {}:{},request: {} {} {}"
-                , request.getRemoteAddr()
-                , request.getRemotePort()
-                , request.getMethod()
-                , request.getRequestURL()
-                , JSON.toJSONString(request.getParameterMap())
+        log.info("from: {}:{}, request: {} {} {}",
+                request.getRemoteAddr(),
+                request.getRemotePort(),
+                request.getMethod(),
+                request.getRequestURL(),
+                JSON.toJSONString(request.getParameterMap())
         );
 
         filterChain.doFilter(request, response);

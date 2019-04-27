@@ -6,9 +6,9 @@ import com.xming.gymclubsystem.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Xiaoming.
@@ -25,22 +25,29 @@ public class GymController {
             @RequestParam("pageNo") int pageNo
     ) {
         final Page<Trainer> trainerPage = dataService.pagingTrains(pageNo, pageSize);
-
         return trainerPage.hasContent() ? ResponseEntity.ok(trainerPage) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/user/{username}/add-trainer")
+    public ResponseEntity addUserSTrainer(@PathVariable String username, @RequestParam("trainerId") int trainerId) {
+        dataService.addUserTrainerByID(username, trainerId);
+        final List<Trainer> trainerList = dataService.getUserTrainers(username);
+        return ResponseEntity.ok().body(trainerList);
+    }
+
+    @GetMapping("/user/{username}/trainers")
+    public ResponseEntity<List<Trainer>> getUserTrainerList(@PathVariable String username) {
+        final List<Trainer> trainerList = dataService.getUserTrainers(username);
+
+        return trainerList.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(trainerList);
     }
 
     @GetMapping("/gym-list")
     public ResponseEntity<Page<Gym>> getGymList(
             @RequestParam("pageSize") int pageSize,
-            @RequestParam("pageNO") int pageNo
+            @RequestParam("pageNo") int pageNo
     ) {
         final Page<Gym> gymPage = dataService.pagingGyms(pageNo, pageSize);
-
         return gymPage != null ? ResponseEntity.ok(gymPage) : ResponseEntity.notFound().build();
     }
-
-    /*@GetMapping("/trainers/{username}")
-    public ResponseEntity<Page<Trainer>> getUserTrainerList(@PathVariable String username){
-
-    }*/
 }

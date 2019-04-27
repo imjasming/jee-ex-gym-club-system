@@ -6,6 +6,7 @@ import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.repository.primary.GymRepository;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
+import com.xming.gymclubsystem.repository.primary.TrainerRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
@@ -56,7 +57,8 @@ public class GymClubSystemApplicationTests {
 	@Autowired
 	private RoleRepository roleRepository;
 
-
+    @Autowired
+    private TrainerRepository trainerRepository;
 
 	@Autowired
 	private DataService dataService;
@@ -158,23 +160,6 @@ public class GymClubSystemApplicationTests {
 		System.out.println(dataService.getGym("aaaa"));
 	}
 
-
-
-	@Test
-	public void testAddGyms(){
-		List<Gym> gyms = new ArrayList<>();
-		for (int i = 'a';i<='z';i++){
-			Gym gym = new Gym();
-			gym.setGymName((char)i+""+(char)i);
-			gym.setLocation((char)i+"'s"+" "+"location");
-			gyms.add(gym);
-		}
-
-
-		gymRepository.saveAll(gyms);
-	}
-
-
 	@Test
 	public void testPagingGyms(){
 		//pageNo从0开始
@@ -191,25 +176,34 @@ public class GymClubSystemApplicationTests {
 		System.out.println("当前页面的LIST:"+page.getContent());
 		System.out.println("当前页面的记录数"+page.getNumberOfElements());
 
-
-
 	}
 
 
 
 	@Test
-    public void testUpdating(){
-
-        //dataService.updateGymlocation("aa","bjtu");
-
-//        dataService.updateTrainerPosition("cw","BOSS");
-//        dataService.updateTrainerEmail("cw","BOSS");
-//        dataService.updateTrainerSalary("cw",4578.056);
-//        dataService.updateTrainerTelephone("cw","18801130810");
-       //dataService.updateUmUserEmail("cw","18801130810");
-
-        //userRepository.updateUmUserEmail("cw","sasdasdas");
-
+    public void testAddGyms() {
+        List<Gym> gyms = new ArrayList<>();
+        int k = 1;
+        for (char i = 'a', j = '北', l = '身'; i <= 'z'; i++, j++, k++, l++) {
+            Gym gym = new Gym();
+            gym.setGymName(new StringBuilder("深邃黑暗健").append(l).append("房").toString());
+            gym.setLocation("location: " + "交大东路" + k + "号");
+            gym.setIntro("重要事情说三遍，程威沙雕，程威沙雕，程威沙雕");
+            gyms.add(gym);
+        }
+        ArrayList<Trainer> ts = new ArrayList<>();
+        k = 1;
+        for (char i = 'a', j = '北', l = '四'; k <= 30; i++, j++, k++, l++) {
+            Trainer trainer = new Trainer();
+            trainer.setName(new StringBuilder("李").append(l).toString());
+            trainer.setAge(k);
+            trainer.setEmail(i + "@" + i + ".com");
+            trainer.setIntro("这人个很懒，程威沙雕，程威沙雕，程威沙雕");
+            trainer.setTelephone(5168 + "00" + k);
+            ts.add(trainer);
+        }
+        gymRepository.saveAll(gyms);
+        trainerRepository.saveAll(ts);
     }
 
     @Test

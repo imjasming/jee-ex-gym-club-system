@@ -17,9 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author Xiaoming.
@@ -67,7 +65,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public List<UmUser> getTrainerUsers(String tname) {
-        List<UmUser> umUsers = trainerRepository.getByName(tname).getUmUsers();
+        List<UmUser> umUsers = trainerRepository.getByName(tname).getUsers();
         return umUsers;
     }
 

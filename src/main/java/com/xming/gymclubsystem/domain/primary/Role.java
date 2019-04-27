@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.domain.primary;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Role implements Serializable {
     private RoleName name;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+    @JsonIgnoreProperties(ignoreUnknown = true, value = {"roles"})
     private List<UmUser> users = new LinkedList<>();
 
     public Role(RoleName roleName) {

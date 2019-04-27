@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.domain.primary;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -24,11 +25,12 @@ public class Trainer implements Serializable {
     private double salary;
     private String intro;
 
-    @ManyToMany(fetch = FetchType.EAGER,mappedBy = "trainers")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "trainers")
     @Fetch(FetchMode.SUBSELECT)
-    private List<UmUser> umUsers = new LinkedList<>();
+    @JsonIgnoreProperties(ignoreUnknown = true, value = {"trainers"})
+    private List<UmUser> users = new LinkedList<>();
 
-    @JoinColumn(name="GYM_ID")
+    @JoinColumn(name = "GYM_ID")
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Gym gym;
 
@@ -43,7 +45,7 @@ public class Trainer implements Serializable {
                 ", telephone='" + telephone + '\'' +
                 ", salary=" + salary +
                 ", intro='" + intro + '\'' +
-                ", umUsers=" + umUsers +
+                ", users=" + users +
                 ", gym=" + gym +
                 '}';
     }
