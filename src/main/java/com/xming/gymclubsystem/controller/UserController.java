@@ -1,7 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.primary.UmUser;
-import com.xming.gymclubsystem.dto.UserInfo;
+import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.service.UserService;
@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -65,8 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/user/get-info")
-    public ResponseEntity<UserInfo> getUserInfo() {
-        final String username = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    public ResponseEntity<UserInfo> getUserInfo(@RequestAttribute("username") String username) {
         UserInfo userInfo = userService.getUserInfoByName(username);
         return userInfo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(userInfo);
     }
@@ -74,7 +71,7 @@ public class UserController {
     @PostMapping("/user/{username}/update-profile")
     public ResponseEntity updateProfile(@PathVariable String username, @RequestBody UserProfile newProfile) {
         newProfile.setUsername(username);
-        UserInfo info = userService.updateProfile(newProfile);
+        UserInfo info = userService.updateProfile(newProfile, username);
         return info != null ? ResponseEntity.ok(info) : ResponseEntity.badRequest().body("Profile update failed");
     }
 }

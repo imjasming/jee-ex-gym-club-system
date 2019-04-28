@@ -1,7 +1,7 @@
 package com.xming.gymclubsystem.service;
 
 import com.xming.gymclubsystem.domain.primary.UmUser;
-import com.xming.gymclubsystem.dto.UserInfo;
+import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 
@@ -18,7 +18,7 @@ public interface UserService {
 
     UserInfo getUserInfoByName(String username);
 
-    UserInfo updateProfile(UserProfile newProfile);
+    UserInfo updateProfile(UserProfile newProfile, String username);
 
     //changePassword
     void changePassword(String uname, String password);

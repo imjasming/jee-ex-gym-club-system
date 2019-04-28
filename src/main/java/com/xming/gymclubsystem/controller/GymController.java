@@ -35,8 +35,8 @@ public class GymController {
         return ResponseEntity.ok().body(trainerList);
     }
 
-    @GetMapping("/user/{username}/trainers")
-    public ResponseEntity<List<Trainer>> getUserTrainerList(@PathVariable String username) {
+    @GetMapping("/user/trainers")
+    public ResponseEntity<List<Trainer>> getUserTrainerList(@RequestAttribute("username") String username) {
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
 
         return trainerList.isEmpty() ? ResponseEntity.notFound().build() : ResponseEntity.ok(trainerList);

@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .logout().permitAll()
-                .and().cors()  //csrf被禁用后,如果使用跨域,就导致axios不能获取正常error.response
+                .and().cors()  //csrf被禁用后,如果使用跨域,就导致axios不能正常获取error.response -- 巨坑
         ;
 
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
@@ -113,6 +113,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new CorsFilter(source);
     }
 
+    // 以下不知为何不起作用，引以为戒
 //    @Override
 //    public void configure(WebSecurity web) throws Exception {
 //        web

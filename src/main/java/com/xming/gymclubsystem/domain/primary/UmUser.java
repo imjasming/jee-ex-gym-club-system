@@ -82,20 +82,8 @@ public class UmUser implements Serializable {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "UmUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", lastPasswordReset=" + lastPasswordReset +
-                ", enable=" + enable +
-                ", intro='" + intro + '\'' +
-                ", roles=" + roles +
-                ", gym=" + gym +
-                ", trainers=" + trainers +
-                '}';
+    public void setRoles(List<Role> roles) {
+        roles.forEach(item -> item.getUsers().add(this));
+        this.roles.addAll(roles);
     }
 }

@@ -2,17 +2,20 @@ package com.xming.gymclubsystem.service.impl;
 
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.UmUser;
-import com.xming.gymclubsystem.dto.UserInfo;
+import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
+import com.xming.gymclubsystem.repository.secondary.UserInfoRepository;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import com.xming.gymclubsystem.service.UserService;
 import com.xming.gymclubsystem.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,9 +36,13 @@ import java.util.Date;
  */
 @Slf4j
 @Service("userService")
+@CacheConfig(cacheNames = "com.xm.service.userService")
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -52,17 +59,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    private UserInfo getInfoByUser(UmUser user) {
-        UserInfo userInfo = new UserInfo();
-        BeanUtils.copyProperties(user, userInfo);
-        return userInfo;
-    }
-
     @Override
     public UmUser register(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
         Role newRole = new Role(Role.RoleName.ROLE_USER);
-        if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
+        if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.existsByEmail(signUpParam.getEmail())) {
             log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
             return null;
         }
@@ -100,6 +101,12 @@ public class UserServiceImpl implements UserService {
         return token;
     }
 
+    private UserInfo getInfoByUser(UmUser user) {
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(user, userInfo);
+        return userInfo;
+    }
+
     @Override
     @Cacheable(value = "umuser", key = "#username")
     public UmUser getUserByName(String username) {
@@ -107,23 +114,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    //@Cacheable(value = "userInfo", key = "#username")
     public UserInfo getUserInfoByName(String username) {
-        UmUser user = userRepository.findByUsername(username);
-        return getInfoByUser(user);
+        UserInfo userInfo = userInfoRepository.findByUsername(username);
+        if (userInfo == null) {
+            userInfo = getInfoByUser(userRepository.findByUsername(username));
+            userInfoRepository.save(userInfo);
+        }
+        return userInfo;
     }
 
     @Transactional
     @Override
-    public UserInfo updateProfile(UserProfile newProfile) {
+    @CachePut(key = "#username")
+    public UserInfo updateProfile(UserProfile newProfile, String username) {
         final String email = newProfile.getEmail();
-        final String username = newProfile.getUsername();
         if (userRepository.existsByEmail(email)) {
             return null;
         }
         userRepository.updateUmUserEmail(username, email);
-        return getInfoByUser(userRepository.findByUsername(username));
-    }
+        userInfoRepository.deleteById(username);
 
+        final UserInfo userInfo = getInfoByUser(userRepository.findByUsername(username));
+        userInfoRepository.save(userInfo);
+
+        return userInfo;
+    }
 
     @Transactional(value = "transactionManagerPrimary")
     @Override

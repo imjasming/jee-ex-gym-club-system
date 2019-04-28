@@ -184,10 +184,10 @@ public class GymClubSystemApplicationTests {
     public void testAddGyms() {
         List<Gym> gyms = new ArrayList<>();
         int k = 1;
-        for (char i = 'a', j = '北', l = '身'; i <= 'z'; i++, j++, k++, l++) {
+        for (char i = 'A', j = '北', l = '身'; i <= 'z'; i++, j++, k++, l++) {
             Gym gym = new Gym();
             gym.setGymName(new StringBuilder("深邃黑暗健").append(l).append("房").toString());
-            gym.setLocation("location: " + "交大东路" + k + "号");
+            gym.setLocation("" + "交大东路" + k + "号");
             gym.setIntro("重要事情说三遍，程威沙雕，程威沙雕，程威沙雕");
             gyms.add(gym);
         }
