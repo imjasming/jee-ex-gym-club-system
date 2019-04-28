@@ -7,6 +7,7 @@ import com.xming.gymclubsystem.dto.UserProfile;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
+import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.JwtUserDetailsService;
 import com.xming.gymclubsystem.service.UserService;
 import com.xming.gymclubsystem.util.JwtTokenUtil;
@@ -27,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_ADMIN;
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
+
 /**
  * @author Xiaoming.
  * Created on 2019/03/29 20:46.
@@ -36,6 +40,9 @@ import java.util.Date;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private DataService dataService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -61,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UmUser register(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
-        Role newRole = new Role(Role.RoleName.ROLE_USER);
+        Role newRole = new Role(ROLE_USER);
         if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
             log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
             return null;
@@ -71,10 +78,12 @@ public class UserServiceImpl implements UserService {
         final String rawPassword = passwordEncoder.encode(signUpParam.getPassword());
         newUser.setPassword(rawPassword);
         newUser.setLastPasswordReset(new Date());
-        newUser.setRoles(Collections.singletonList(newRole));
+//        newUser.setRoles(Collections.singletonList(newRole));
         newUser.setEnable(true);
-        roleRepository.save(newRole);
-        userRepository.save(newUser);
+//        roleRepository.save(newRole);
+//        userRepository.save(newUser);
+
+        dataService.formalAddUserRole(newUser,ROLE_USER);
         return newUser;
     }
 

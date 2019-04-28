@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface RoleRepository extends JpaRepository<Role, Integer> , JpaSpecificationExecutor<Role> {
 
-
+    Role findByName(Role.RoleName rname);
 }

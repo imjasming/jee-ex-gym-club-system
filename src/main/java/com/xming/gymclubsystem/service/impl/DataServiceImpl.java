@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_ADMIN;
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
+
 /**
  * @author Xiaoming.
  * Created on 2019/03/29 20:46.
@@ -236,6 +239,30 @@ public class DataServiceImpl implements DataService {
         Page<Trainer> page = trainerRepository.findAll(pageable);
 
         return page;
+    }
+
+    @Override
+    public void addUserRole(String uname, Role.RoleName rname) {
+        UmUser umUser = null;
+        umUser = userRepository.findByUsername(uname);
+        umUser.getRoles().add(roleRepository.findByName(rname));
+        userRepository.save(umUser);
+    }
+
+    @Override
+    public void formalAddUserRole(UmUser umUser, Role.RoleName rname) {
+        if(roleRepository.existsById(1)){
+            umUser.getRoles().add(roleRepository.findByName(rname));
+            userRepository.save(umUser);
+        }else{
+            Role role1 = new Role(ROLE_USER);
+            Role role2 = new Role(ROLE_ADMIN);
+            roleRepository.save(role1);
+            roleRepository.save(role2);
+
+            umUser.getRoles().add(roleRepository.findByName(rname));
+            userRepository.save(umUser);
+        }
     }
 
 

@@ -60,7 +60,8 @@ public interface DataService {
 
 
 
+    void addUserRole(String uname,Role.RoleName rname);
 
+    void formalAddUserRole(UmUser umUser,Role.RoleName rname);
 
-
-}
+    }

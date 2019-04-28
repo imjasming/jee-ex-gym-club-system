@@ -30,6 +30,7 @@ import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_ADMIN;
 import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
 
 /**
@@ -87,17 +88,17 @@ public class GymClubSystemApplicationTests {
 		user2.setPassword("132465673");
 
 
-		role1.getUsers().add(user1);
-		role1.getUsers().add(user2);
-
-		role2.getUsers().add(user1);
-		role2.getUsers().add(user2);
-
-		user1.getRoles().add(role1);
-		user1.getRoles().add(role2);
-
-		user2.getRoles().add(role1);
-		user2.getRoles().add(role2);
+//		role1.getUsers().add(user1);
+//		role1.getUsers().add(user2);
+//
+//		role2.getUsers().add(user1);
+//		role2.getUsers().add(user2);
+//
+//		user1.getRoles().add(role1);
+//		user1.getRoles().add(role2);
+//
+//		user2.getRoles().add(role1);
+//		user2.getRoles().add(role2);
 
 
         //保存
@@ -237,4 +238,20 @@ public class GymClubSystemApplicationTests {
 
 		System.out.println(dataService.getUserTrainers("cw").size());
 	}
+
+
+	@Test
+    public void addRoles(){
+	    //dataService.addUserRole("cw",ROLE_USER);
+        //System.out.println(roleRepository.findByName(ROLE_USER));
+        UmUser user2 = new UmUser();
+        user2.setNickname("asdfsdcc");
+        user2.setEmail("sss@qq.com");
+        user2.setUsername("dsgdfgsdfg");
+        user2.setPassword("132465673");
+
+
+        dataService.formalAddUserRole(user2,ROLE_ADMIN);
+    }
+
 }
