@@ -27,7 +27,7 @@ src
  │  │              │      RestAuthenticationFailureHandler.java -- 认证失败发送401错误消息
  │  │              │      
  │  │              ├─config
- │  │              │      DataSourceConfig.java ---------- 多数据源配置
+ │  │              │      DataSourceConfig.java ---------- 【多数据源配置】
  │  │              │      PrimaryConfig.java ------------- MySql数据库配置
  │  │              │      RedisConfig.java --------------- redis缓存配置
  │  │              │      SecondaryConfig.java ----------- H2数据库配置
@@ -41,21 +41,21 @@ src
  │  │              │      UserSignController.java -------- 用户登录注册控制器
  │  │              │      
  │  │              ├─domain -- 实体
- │  │              │  ├─primary ------------------ 主数据库（Mysql）实体类包
+ │  │              │  ├─primary -------------------------- 主数据库（Mysql）实体类包
  │  │              │  │      Gym.java
  │  │              │  │      Role.java
  │  │              │  │      Trainer.java
  │  │              │  │      UmUser.java
  │  │              │  │      
- │  │              │  └─secondary ---------------- H2数据库实体类包
+ │  │              │  └─secondary ------------------------ H2数据库实体类包
  │  │              │         UserInfo.java 
  │  │              │          
- │  │              ├─dto ------------------------- 数据传输对象
+ │  │              ├─dto ---------------------- 数据传输对象
  │  │              │      RestResponse.java -------------- 封装Rest响应数据
  │  │              │      UserProfile.java --------------- 用户信息修改传输对象
  │  │              │      UserSignUpRequest.java --------- 用户注册信息传输对象
  │  │              │      
- │  │              ├─repository ------------------ jpa数据访问对象
+ │  │              ├─repository -------------------------- 【jpa 数据访问对象包】
  │  │              │  ├─primary -------------------------- Mysql数据访问对象包
  │  │              │  │      GymRepository.java
  │  │              │  │      RoleRepository.java
