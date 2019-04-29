@@ -14,8 +14,6 @@ import com.xming.gymclubsystem.util.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,8 +25,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Date;
+
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_ADMIN;
+import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
 
 /**
  * @author Xiaoming.
@@ -36,7 +36,7 @@ import java.util.Date;
  */
 @Slf4j
 @Service("userService")
-@CacheConfig(cacheNames = "com.xm.service.userService")
+//@CacheConfig(cacheNames = "com.xm.service.userService")
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
@@ -59,11 +59,25 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    private void formalAddUserRole(UmUser umUser, Role.RoleName rname) {
+        if (roleRepository.existsById(1)) {
+            umUser.getRoles().add(roleRepository.findByName(rname));
+            userRepository.save(umUser);
+        } else {
+            Role role1 = new Role(ROLE_USER);
+            Role role2 = new Role(ROLE_ADMIN);
+            roleRepository.save(role1);
+            roleRepository.save(role2);
+
+            umUser.getRoles().add(roleRepository.findByName(rname));
+            userRepository.save(umUser);
+        }
+    }
+
     @Override
     public UmUser register(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
-        Role newRole = new Role(Role.RoleName.ROLE_USER);
-        if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.existsByEmail(signUpParam.getEmail())) {
+        if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
             log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
             return null;
         }
@@ -72,10 +86,12 @@ public class UserServiceImpl implements UserService {
         final String rawPassword = passwordEncoder.encode(signUpParam.getPassword());
         newUser.setPassword(rawPassword);
         newUser.setLastPasswordReset(new Date());
-        newUser.setRoles(Collections.singletonList(newRole));
+//        newUser.setRoles(Collections.singletonList(newRole));
         newUser.setEnable(true);
-        roleRepository.save(newRole);
-        userRepository.save(newUser);
+//        roleRepository.save(newRole);
+//        userRepository.save(newUser);
+
+        formalAddUserRole(newUser, ROLE_USER);
         return newUser;
     }
 
@@ -126,7 +142,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    @CachePut(key = "#username")
+    //@CachePut(key = "#username")
     public UserInfo updateProfile(UserProfile newProfile, String username) {
         final String email = newProfile.getEmail();
         if (userRepository.existsByEmail(email)) {

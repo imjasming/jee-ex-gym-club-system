@@ -30,12 +30,7 @@ public class UserController {
     private String tokenHeader;
 
     @PostMapping(path = "/register")
-    public ResponseEntity signUp(
-            @RequestBody UserSignUpRequest request
-            /*@RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("email") String email*/
-    ) {
+    public ResponseEntity signUp(@RequestBody UserSignUpRequest request) {
         UmUser user = userService.register(request);
         if (user != null) {
             return ResponseEntity.ok(null);

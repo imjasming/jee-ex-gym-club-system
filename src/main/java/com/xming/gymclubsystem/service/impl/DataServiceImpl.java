@@ -212,24 +212,19 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    @Cacheable(value = "gymPages", key = "#pageNo")
     public Page<Gym> pagingGyms(int pageNo, int pageSize) {
 
         Sort sort = new Sort(Sort.Order.asc("id"));
         PageRequest pageable = new PageRequest(pageNo,pageSize,sort);
         Page<Gym> page = gymRepository.findAll(pageable);
-        //以下为page使用方法
-
-//        System.out.println("总记录数"+page.getTotalElements());
-//        System.out.println("当前第几页"+(page.getNumber()+1));
-//        System.out.println("总页数："+page.getTotalPages());
-//        System.out.println("当前页面的LIST:"+page.getContent());
-//        System.out.println("当前页面的记录数"+page.getNumberOfElements());
 
         return page;
     }
 
 
     @Override
+    @Cacheable(value = "trainerPages", key = "#pageNo")
     public Page<Trainer> pagingTrains(int pageNo, int pageSize) {
         Sort sort = new Sort(Sort.Order.asc("id"));
         PageRequest pageable = new PageRequest(pageNo,pageSize,sort);
@@ -238,5 +233,11 @@ public class DataServiceImpl implements DataService {
         return page;
     }
 
-
+    @Override
+    public void addUserRole(String uname, Role.RoleName rname) {
+        UmUser umUser = null;
+        umUser = userRepository.findByUsername(uname);
+        umUser.getRoles().add(roleRepository.findByName(rname));
+        userRepository.save(umUser);
+    }
 }

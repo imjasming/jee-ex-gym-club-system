@@ -4,7 +4,6 @@ import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
-import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -21,9 +20,6 @@ public interface DataService {
     List<Trainer> getUserTrainers(String uname);
     List<UmUser> getTrainerUsers(String tname);
 
-
-
-
     //update
     void updateGymlocation(String gymname,String location);
     void updateTrainerPosition(String tname,String position);
@@ -37,7 +33,6 @@ public interface DataService {
     void updateGymIntro(String gymname,String intro);
     void updateTrainerIntro(String tname,String intro);
     void updateUserIntro(String uname,String intro);
-
 
     //add
     Gym addGym(Gym gym);
@@ -53,14 +48,9 @@ public interface DataService {
     void deleteTrainer(String tname);
     void deleteUser(String uname);
 
-
     //PaginandSort
     Page<Gym> pagingGyms(int pageNo, int pageSize);
     Page<Trainer> pagingTrains(int pageNo,int pageSize);
 
-
-
-
-
-
+    void addUserRole(String uname, Role.RoleName rname);
 }
