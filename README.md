@@ -73,8 +73,8 @@
     │  │              │  │  UserService.java -- 用户登录，注册，信息检索及修改接口
     │  │              │  │  
     │  │              │  └─impl
-    │  │              │          DataServiceImpl.java -- gym和trainer实体类分页检索，数据修改，添加private trainer实现类
-    │  │              │          UserServiceImpl.java -- 用户登录，注册，信息检索及修改实现类
+    │  │              │          DataServiceImpl.java -- gym和trainer实体类【分页】检索，数据修改，添加private trainer实现类，【必要数据缓存】
+    │  │              │          UserServiceImpl.java -- 用户登录，注册，信息检索及修改实现类，【H2使用】
     │  │              │          
     │  │              └─util -- 工具包
     │  │                      JwtTokenUtil.java -- JwtToken生成，校验，刷新，从token获取信息工具类
