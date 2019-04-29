@@ -48,6 +48,6 @@ public class GymController {
             @RequestParam("pageNo") int pageNo
     ) {
         final Page<Gym> gymPage = dataService.pagingGyms(pageNo, pageSize);
-        return gymPage != null ? ResponseEntity.ok(gymPage) : ResponseEntity.notFound().build();
+        return gymPage.hasContent() ? ResponseEntity.ok(gymPage) : ResponseEntity.notFound().build();
     }
 }
