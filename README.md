@@ -41,50 +41,49 @@ src
  │  │              │      UserSignController.java -------- 用户登录注册控制器
  │  │              │      
  │  │              ├─domain -- 实体
- │  │              │  ├─primary -------------- 主数据库（Mysql）实体类
+ │  │              │  ├─primary ------------------ 主数据库（Mysql）实体类包
  │  │              │  │      Gym.java
  │  │              │  │      Role.java
  │  │              │  │      Trainer.java
  │  │              │  │      UmUser.java
  │  │              │  │      
- │  │              │  └─secondary ------------ H2数据库实体类
- │  │              │          H2test.java
- │  │              │          UserInfo.java 
+ │  │              │  └─secondary ---------------- H2数据库实体类包
+ │  │              │         UserInfo.java 
  │  │              │          
- │  │              ├─dto --------------------- 数据传输对象
- │  │              │      RestResponse.java ---------- 封装Rest响应数据
- │  │              │      UserProfile.java ----------- 用户信息修改传输对象
- │  │              │      UserSignUpRequest.java ----- 用户注册信息传输对象
+ │  │              ├─dto ------------------------- 数据传输对象
+ │  │              │      RestResponse.java -------------- 封装Rest响应数据
+ │  │              │      UserProfile.java --------------- 用户信息修改传输对象
+ │  │              │      UserSignUpRequest.java --------- 用户注册信息传输对象
  │  │              │      
- │  │              ├─repository -------------- jpa数据访问对象
- │  │              │  ├─primary ---------------------- Mysql数据访问对象
+ │  │              ├─repository ------------------ jpa数据访问对象
+ │  │              │  ├─primary -------------------------- Mysql数据访问对象包
  │  │              │  │      GymRepository.java
  │  │              │  │      RoleRepository.java
  │  │              │  │      TrainerRepository.java
  │  │              │  │      UserRepository.java
  │  │              │  │      
- │  │              │  └─secondary -------------------- H2数据访问对象
- │  │              │          TestRepository.java
- │  │              │          UserInfoRepository.java
+ │  │              │  └─secondary ------------------------ H2数据访问对象包
+ │  │              │         UserInfoRepository.java
  │  │              │          
  │  │              ├─service -- 
- │  │              │  │  DataService.java ------------ gym和trainer实体类分页检索，数据修改，添加private trainer接口
- │  │              │  │  JwtUserDetailsService.java -- spring security获取用户方式
- │  │              │  │  UserService.java ------------ 用户登录，注册，信息检索及修改接口
+ │  │              │  │  DataService.java ---------------- gym和trainer实体类分页检索，数据修改，添加private trainer接口
+ │  │              │  │  JwtUserDetailsService.java ------ spring security获取用户方式
+ │  │              │  │  UserService.java ---------------- 用户登录，注册，信息检索及修改接口
  │  │              │  │  
  │  │              │  └─impl
- │  │              │       DataServiceImpl.java ---- gym和trainer实体类【分页】检索，【必要数据缓存】，数据修改，添加private trainer实现类
- │  │              │       UserServiceImpl.java ---- 用户登录，注册，信息检索及修改实现类，【H2使用】
+ │  │              │       DataServiceImpl.java ---------- gym和trainer实体类【分页】检索，【必要数据缓存】，数据修改，
+ │  │              │                                           添加private trainer实现类
+ │  │              │       UserServiceImpl.java ---------- 用户登录，注册，信息检索及修改实现类，【H2使用】
  │  │              │          
  │  │              └─util -- 工具包
- │  │                      JwtTokenUtil.java --------- JwtToken生成，校验，刷新，从token获取信息工具类
- │  │                      RedisOperator.java -------- Redis操作工具类
- │  │                      UserUtil.java ------------- 用户工具类
+ │  │                      JwtTokenUtil.java ------------- JwtToken生成，校验，刷新，从token获取信息工具类
+ │  │                      RedisOperator.java ------------ Redis操作工具类
+ │  │                      UserUtil.java ----------------- 用户工具类
  │  │                      
  │  └─resources
- │      │  application.properties -------------------- spring boot 服务器配置
+ │      │  application.properties ------------------------ spring boot 服务器配置
  │      │  
- │      ├─static ------------------------------------- 静态文件
+ │      ├─static ----------------------------------------- 静态文件
  │      │  └─img
  │      │          gym.jpg
  │      │          head.png
@@ -96,4 +95,4 @@ src
          └─com
              └─xming
                  └─gymclubsystem
-                       GymClubSystemApplicationTests.java
+                       GymClubSystemApplicationTests.java -- 测试类
