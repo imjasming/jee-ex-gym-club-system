@@ -21,5 +21,5 @@ public interface UserService {
     UserInfo updateProfile(UserProfile newProfile, String username);
 
     //changePassword
-    void changePassword(String uname, String password);
+    UmUser changePassword(String username, String oldPassword, String password);
 }
