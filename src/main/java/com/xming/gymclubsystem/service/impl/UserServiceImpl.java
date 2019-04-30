@@ -159,8 +159,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(value = "transactionManagerPrimary")
     @Override
-    public void changePassword(String uname, String password) {
-        userRepository.updateUmUserPassword(uname, password);
+    public UmUser changePassword(String username, String oldPassword, String newPassword) {
+        UmUser user = userRepository.findUserByUsernameAndPassword(username, oldPassword);
+        if (user == null) {
+            return null;
+        }
+        userRepository.updateUmUserPassword(username, newPassword);
+        return userRepository.findByUsername(username);
     }
-
 }
