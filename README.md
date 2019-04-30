@@ -96,3 +96,25 @@ src
              └─xming
                  └─gymclubsystem
                        GymClubSystemApplicationTests.java -- 测试类
+```
+# 技术
+#### 后端技术
+
+技术 | 说明 
+----|----
+Spring Boot | 容器+MVC框架 
+Spring Security | 认证和授权框架 
+Redis | 分布式缓存 
+JWT | JWT登录支持 
+Lombok | 简化对象封装工具 
+
+#### 前端技术
+
+技术 | 说明
+----|----
+Vue | 前端框架 
+Vue-router | 路由框架 
+Vuex | 全局状态管理框架 
+Element | 前端UI框架 
+Axios | 前端HTTP框架 
+Js-cookie | cookie管理工具 
