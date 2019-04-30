@@ -16,7 +16,7 @@ src
  │  │  └─com
  │  │      └─xming
  │  │          └─gymclubsystem
- │  │              │  GymClubSystemApplication.java -- main
+ │  │              │  GymClubSystemApplication.java -- main()
  │  │              │  
  │  │              ├─bo
  │  │              │      JwtUserDetails.java -------------------- Spring Security 用户实体类，用于认证
