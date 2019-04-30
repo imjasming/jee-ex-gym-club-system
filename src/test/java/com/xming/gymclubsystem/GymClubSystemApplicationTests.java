@@ -4,10 +4,12 @@ import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.domain.secondary.Equipment;
 import com.xming.gymclubsystem.repository.primary.GymRepository;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.TrainerRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
+import com.xming.gymclubsystem.repository.secondary.EquipmentRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import org.junit.Test;
@@ -65,6 +67,9 @@ public class GymClubSystemApplicationTests {
 
 	@Autowired
 	private UserService userService;
+
+
+
 
 	@Test
 	@Transactional
@@ -251,5 +256,14 @@ public class GymClubSystemApplicationTests {
 
 		//dataService.formalAddUserRole(user2,ROLE_ADMIN);
 	}
+
+
+	@Test
+    public void addEquipment(){
+        Equipment equipment = new Equipment();
+        equipment.setEName("cccc");
+        equipment.setPrice(123.654);
+        dataService.addEquipment(equipment);
+    }
 
 }

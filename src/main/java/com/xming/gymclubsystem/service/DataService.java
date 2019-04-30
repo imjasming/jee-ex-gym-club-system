@@ -4,6 +4,7 @@ import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.domain.secondary.Equipment;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -53,4 +54,9 @@ public interface DataService {
     Page<Trainer> pagingTrains(int pageNo,int pageSize);
 
     void addUserRole(String uname, Role.RoleName rname);
+
+
+    //for equipment
+    Equipment addEquipment(Equipment equipment);
+    void delEquipment(String eName);
 }
