@@ -14,6 +14,7 @@ import java.util.List;
  * @author Xiaoming.
  * Created on 2019/04/29 20:20.
  */
+@RestController
 public class TrainerController {
     @Autowired
     private DataService dataService;
