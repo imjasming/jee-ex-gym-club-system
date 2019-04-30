@@ -212,7 +212,7 @@ public class GymClubSystemApplicationTests {
 
     @Test
     public void testChangePassword(){
-	    userService.changePassword("cw","啊手动阀手动阀");
+        userService.changePassword("", "cw", "啊手动阀手动阀");
     }
 
 
