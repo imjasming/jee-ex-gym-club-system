@@ -9,17 +9,19 @@ import java.io.Serializable;
 
 @Entity
 @Data
-public class H2test implements Serializable {
+public class Equipment implements Serializable {
     @Id
     @GeneratedValue
     private Integer id;
-    private String intro;
+    private String eName;
+    private double price;
 
     @Override
     public String toString() {
-        return "Gym{" +
+        return "Equipment{" +
                 "id=" + id +
-                ", intro='" + intro + '\'' +
+                ", eName='" + eName + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

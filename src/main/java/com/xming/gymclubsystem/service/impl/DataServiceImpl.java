@@ -4,10 +4,12 @@ import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.domain.secondary.Equipment;
 import com.xming.gymclubsystem.repository.primary.GymRepository;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.TrainerRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
+import com.xming.gymclubsystem.repository.secondary.EquipmentRepository;
 import com.xming.gymclubsystem.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,6 +38,9 @@ public class DataServiceImpl implements DataService {
 
     @Autowired
     private TrainerRepository trainerRepository;
+
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
 
 
@@ -239,5 +244,17 @@ public class DataServiceImpl implements DataService {
         umUser = userRepository.findByUsername(uname);
         umUser.getRoles().add(roleRepository.findByName(rname));
         userRepository.save(umUser);
+    }
+
+    @Override
+    public Equipment addEquipment(Equipment equipment) {
+        return  equipmentRepository.save(equipment);
+    }
+
+    @Override
+    public void delEquipment(String eName) {
+        Equipment equipment = null;
+        equipment = equipmentRepository.findByEName(eName);
+        equipmentRepository.delete(equipment);
     }
 }
