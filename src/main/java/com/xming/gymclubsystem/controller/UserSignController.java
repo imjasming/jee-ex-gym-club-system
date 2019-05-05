@@ -38,6 +38,7 @@ public class UserSignController {
         } else {
             return ResponseEntity.badRequest().body("Username or email already exists");
         }
+        //return user == null ? ResponseEntity.badRequest().body("Username or email already exists") : ResponseEntity.created(null).build();
     }
 
     @PostMapping(path = "/login")

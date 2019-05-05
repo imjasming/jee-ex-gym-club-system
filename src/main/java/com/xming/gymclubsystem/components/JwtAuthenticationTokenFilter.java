@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author Xiaoming.
@@ -53,7 +54,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 logger.warn("the token is expired and not valid anymore", e);
             } catch (Exception e) {
                 e.printStackTrace();
-                response.sendError(HttpServletResponse.SC_FORBIDDEN, "invalid token");
+                logger.error("invalid token", e);
+                //response.sendError(HttpServletResponse.SC_FORBIDDEN, "invalid token");
             }
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -69,12 +71,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             }
         }
 
-        log.info("from: {}:{}, request: {} {} {}",
+        log.info("from: {}:{}, request: {} {} {}, cookies: {}",
                 request.getRemoteAddr(),
                 request.getRemotePort(),
                 request.getMethod(),
                 request.getRequestURL(),
-                JSON.toJSONString(request.getParameterMap())
+                JSON.toJSONString(request.getParameterMap()),
+                Arrays.toString(request.getCookies())
         );
 
         filterChain.doFilter(request, response);

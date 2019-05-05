@@ -18,23 +18,23 @@ public class UserInfoController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/get-info")
-    public ResponseEntity<UserInfo> getUserInfo(@RequestAttribute("username") String username) {
+    @GetMapping("/{username}/info")
+    public ResponseEntity<UserInfo> getUserInfo(@PathVariable("username") String username) {
         UserInfo userInfo = userService.getUserInfoByName(username);
         return userInfo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(userInfo);
     }
 
-    @PostMapping("/{username}/update-profile")
+    @PutMapping("/{username}/profile")
     public ResponseEntity updateProfile(@PathVariable String username, @RequestBody UserProfile newProfile) {
         newProfile.setUsername(username);
         UserInfo info = userService.updateProfile(newProfile, username);
         return info != null ? ResponseEntity.ok(info) : ResponseEntity.badRequest().body("Profile update failed");
     }
 
-    @PostMapping("/reset-password")
+    @PutMapping("/{username}/password")
     public ResponseEntity resetPassword(@RequestParam("oldPassword") String oldPassword,
                                         @RequestParam("newPassword") String newPassword,
-                                        @RequestAttribute("username") String username) {
+                                        @PathVariable("username") String username) {
         UmUser user = userService.changePassword(username, oldPassword, newPassword);
         return ResponseEntity.ok(user);
     }
