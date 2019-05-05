@@ -4,6 +4,9 @@
 # 项目介绍  
 本项目为Java EE课程作业后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
 目前实现功能：基本的登录注册，用户信息修改（包括修改密码），分页检索gym数据，分页检索trainers数据，对gym和trainer数据缓存，添加及检索私人trainer  
+详细见[设计文档](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+## 项目团队
+张小明（16301026），程威（16301032）
 # 项目结构  
 ```
 .
@@ -13,7 +16,7 @@ src
  │  │  └─com
  │  │      └─xming
  │  │          └─gymclubsystem
- │  │              │  GymClubSystemApplication.java -- main
+ │  │              │  GymClubSystemApplication.java -- main()
  │  │              │  
  │  │              ├─bo
  │  │              │      JwtUserDetails.java -------------------- Spring Security 用户实体类，用于认证
@@ -96,3 +99,29 @@ src
              └─xming
                  └─gymclubsystem
                        GymClubSystemApplicationTests.java -- 测试类
+```
+# 技术
+#### 后端技术
+
+技术 | 说明 
+----|----
+Spring Boot（2.0.5.RELEASE） | 容器+MVC框架 
+Spring Security | 认证和授权框架 
+Spring data jpa | Spring对JPA整合的ORM框架
+spring boot devtools | spring 热部署工具
+Redis | 分布式缓存 
+JWT | JWT登录支持 
+Lombok | 简化对象封装工具 
+Mysql | 关系数据库
+H2 | 嵌入式开源关系数据库
+
+#### 前端技术
+
+技术 | 说明
+----|----
+Vue | 前端框架 
+Vue-router | 路由框架 
+Vuex | 全局状态管理框架 
+Element | 前端UI框架 
+Axios | 前端HTTP框架 
+Js-cookie | cookie管理工具 
