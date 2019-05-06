@@ -28,15 +28,15 @@ public class TrainerController {
         return trainerPage.hasContent() ? ResponseEntity.ok(trainerPage) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data");
     }
 
-    @PostMapping("/user/{username}/add-trainer")
+    @PostMapping("/user/{username}/trainer")
     public ResponseEntity addUserSTrainer(@PathVariable String username, @RequestParam("trainerId") int trainerId) {
         dataService.addUserTrainerByID(username, trainerId);
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
         return ResponseEntity.ok().body(trainerList);
     }
 
-    @GetMapping("/user/trainers")
-    public ResponseEntity getUserTrainerList(@RequestAttribute("username") String username) {
+    @GetMapping("/user/{username}/trainers")
+    public ResponseEntity getUserTrainerList(@PathVariable("username") String username) {
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
 
         return trainerList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data") : ResponseEntity.ok(trainerList);

@@ -25,7 +25,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * @author Xiaoming.
  * Created on 2019/02/07 23:48.
- * Description : 人间正道是沧桑，以下代码全是坑 艹
+ * Description : 以下代码全是坑 艹
  */
 @Configuration
 @EnableWebSecurity
@@ -70,10 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 禁用缓存
         http.headers().cacheControl();
-
-        /*.fullyAuthenticated()
-                .and()
-                .formLogin();*/
     }
 
     @Bean
