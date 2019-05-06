@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class GymController {
     @Autowired
     private DataService dataService;
+
 
     @GetMapping("/gym-list")
     public ResponseEntity getGymList(

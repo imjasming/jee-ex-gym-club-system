@@ -49,11 +49,13 @@ dependencies {
 
 
     //redis-cache 工具类
-    implementation('com.google.guava:guava:19.0')
+    implementation('com.google.guava:guava:20.0')
     implementation('cn.hutool:hutool-all:4.1.0')
     implementation('org.apache.commons:commons-pool2:2.0')
     
     //H2
     implementation('com.h2database:h2:1.4.197')
 
+    //HATEOAS
+    implementation('org.springframework.boot:spring-boot-starter-hateoas')
 }
