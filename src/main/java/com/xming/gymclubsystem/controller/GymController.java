@@ -2,6 +2,8 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.service.DataService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -14,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Xiaoming.
  * Created on 2019/04/22 22:31.
  */
+@Api(tags = "GymController", value = "home gym list")
 @RestController
 public class GymController {
     @Autowired
     private DataService dataService;
 
+    @ApiOperation("in home page, list gyms info")
     @GetMapping("/gym-list")
     public ResponseEntity getGymList(
             @RequestParam("pageSize") int pageSize,
