@@ -1,9 +1,8 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.service.DataService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
