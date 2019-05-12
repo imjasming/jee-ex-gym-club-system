@@ -19,18 +19,24 @@ group = 'com.xiaoming'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
+/*ext {
+    set('springCloudVersion', 'Greenwich.SR1')
+}*/
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    //implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    //implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    //implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation("org.springframework.boot:spring-boot-starter-cache")
     compileOnly 'org.projectlombok:lombok'
@@ -46,8 +52,7 @@ dependencies {
     implementation('com.alibaba:fastjson:1.2.56')
 
     implementation('io.jsonwebtoken:jjwt:0.9.1')
-
-
+    
     //redis-cache 工具类
     implementation('com.google.guava:guava:20.0')
     implementation('cn.hutool:hutool-all:4.1.0')
@@ -62,4 +67,18 @@ dependencies {
     
     //HATEOAS
     implementation('org.springframework.boot:spring-boot-starter-hateoas')
+
+    implementation('org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.0.0.RELEASE')
+    implementation('org.springframework.security:spring-security-oauth2-core:5.0.0.RELEASE')
+    implementation('org.springframework.security:spring-security-oauth2-client:5.0.0.RELEASE')
+    implementation('org.springframework.security:spring-security-oauth2-jose:5.0.0.RELEASE')
+    //implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-security'
 }
+
+/*
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}*/

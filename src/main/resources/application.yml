@@ -1,0 +1,75 @@
+jwt:
+  expiration: 604800
+  secret: xmJwtSecret
+  tokenHead: 'Bearer '
+  tokenHeader: Authorization
+server:
+  port: 8081
+spring:
+  datasource:
+    primary:
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/spring_test?useSSL=false&useUnicode=true&characterEncoding=utf8
+      password: 123456
+      username: test
+    secondary:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:~/test
+      password: ''
+      username: ''
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1ms
+        min-idle: 0
+      shutdown-timeout: 100ms
+    password: ''
+    port: 6379
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: de87e995aa6c1c726646
+            client-secret: 5e0aadf8a2b9203e318fc2b4e938862d255efbea
+            client-name: Auth with Github
+            scope: read:user
+            provider: github
+            redirect-uri-template: http://127.0.0.1:8081/auth/oauth2/code/github
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code
+        provider:
+          github:
+            authorization-uri: https://github.com/login/oauth/authorize
+            token-uri: https://github.com/login/oauth/access_token
+            user-info-uri: https://api.github.com/user
+            user-info-attribute: info
+github:
+  #client:
+  clientId: de87e995aa6c1c726646
+  clientSecret: 5e0aadf8a2b9203e318fc2b4e938862d255efbea
+  accessTokenUri: https://github.com/login/oauth/access_token
+  userAuthorizationUri: https://github.com/login/oauth/authorize
+  clientAuthenticationScheme: form
+  registeredRedirectUri: http://127.0.0.1:8081/auth/oauth2/code/github
+  authorities: READ
+  authorizedGrantTypes: authorization_code
+  scope: read:user
+xm-resource:
+  userInfoUri: https://api.github.com/user
+front-end:
+  login-success-redirect-uri: http://127.0.0.1:8088/#/login

@@ -1,8 +1,7 @@
-package com.xming.gymclubsystem.components;
+package com.xming.gymclubsystem.auth.jwt;
 
 import com.alibaba.fastjson.JSON;
-import com.xming.gymclubsystem.service.JwtUserDetailsService;
-import com.xming.gymclubsystem.util.JwtTokenUtil;
+import com.xming.gymclubsystem.auth.AuthUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  * @author Xiaoming.
@@ -35,7 +33,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private AuthUserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -77,7 +75,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 request.getMethod(),
                 request.getRequestURL(),
                 JSON.toJSONString(request.getParameterMap()),
-                Arrays.toString(request.getCookies())
+                JSON.toJSONString(request.getCookies())
         );
 
         filterChain.doFilter(request, response);

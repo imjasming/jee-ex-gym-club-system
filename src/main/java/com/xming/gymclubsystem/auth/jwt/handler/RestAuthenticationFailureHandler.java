@@ -1,4 +1,4 @@
-package com.xming.gymclubsystem.components;
+package com.xming.gymclubsystem.auth.jwt.handler;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

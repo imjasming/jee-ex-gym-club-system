@@ -1,8 +1,7 @@
-package com.xming.gymclubsystem.config;
+package com.xming.gymclubsystem.auth;
 
-import com.xming.gymclubsystem.components.JwtAuthenticationTokenFilter;
-import com.xming.gymclubsystem.components.RestAuthenticationEntryPoint;
-import com.xming.gymclubsystem.service.JwtUserDetailsService;
+import com.xming.gymclubsystem.auth.jwt.JwtAuthenticationTokenFilter;
+import com.xming.gymclubsystem.auth.oauth.OauthSavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +13,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -29,14 +28,19 @@ import org.springframework.web.filter.CorsFilter;
  */
 @Configuration
 @EnableWebSecurity
+@EnableOAuth2Client
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private AuthUserDetailsService authUserDetailsService;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
     private RestAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired
+    private OauthSavedRequestAwareAuthenticationSuccessHandler oauthSavedRequestAwareAuthenticationSuccessHandler;
+//    @Autowired
+//    OAuth2ClientContext oauth2ClientContext;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -44,8 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //使用JWT，无需csrf
                 .csrf().disable()
                 //don't create session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                //.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                //.and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
                         "/",
@@ -54,15 +58,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/img/*"
+                        "/img/**",
+                        "/static/**",
+                        "/resources/static/img/**",
+                        "/*.jpg",
+                        "/*.png"
                 ).permitAll()
-                .antMatchers("/swagger-resources/**", "/v2/api-docs/**").permitAll()
-                .antMatchers("/login", "/register","/greeting").permitAll()// 对登录注册要允许匿名访问
+                .antMatchers("/swagger-resources/**", "/v2/api-docs/**").permitAll()  // swagger资源
+                .antMatchers("/auth/**", "/register", "/oauth2/**", "/greeting").permitAll()// 对登录注册要允许匿名访问
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()
                 .logout().permitAll()
                 .and().cors()  //csrf被禁用后,如果使用跨域,就导致axios不能正常获取error.response -- 巨坑
+        ;
+
+        http.oauth2Login()
+                .loginProcessingUrl("/oauth2/authorize-client/github")
+                .successHandler(oauthSavedRequestAwareAuthenticationSuccessHandler)
+        //.and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
         ;
 
         http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
@@ -81,9 +95,44 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(jwtUserDetailsService)
+                .userDetailsService(authUserDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
+    /*@Bean
+    public FilterRegistrationBean<OAuth2ClientContextFilter> oauth2ClientFilterRegistration(OAuth2ClientContextFilter filter) {
+        FilterRegistrationBean<OAuth2ClientContextFilter> registration = new FilterRegistrationBean<OAuth2ClientContextFilter>();
+        registration.setFilter(filter);
+        registration.setOrder(-100);
+        return registration;
+    }
+
+    public static final List<String> OAUTH_ENDPOINT_PATH_LIST = Arrays.asList("oauth2/authorize-client/github");
+
+    @Bean
+    //@ConfigurationProperties("github")
+    public ClientResources github() {
+        return new ClientResources();
+    }
+
+    private Filter ssoFilter() {
+        CompositeFilter filter = new CompositeFilter();
+        List<Filter> filters = new ArrayList<>();
+        filters.add(ssoFilter(github(), "/oauth2/authorize-client/github"));
+        filter.setFilters(filters);
+        return filter;
+    }
+
+    private Filter ssoFilter(ClientResources client, String path) {
+        OAuth2ClientAuthenticationProcessingFilter oAuth2ClientAuthenticationFilter = new OAuth2ClientAuthenticationProcessingFilter(path);
+        OAuth2RestTemplate oAuth2RestTemplate = new OAuth2RestTemplate(client.getClient(), oauth2ClientContext);
+        oAuth2ClientAuthenticationFilter.setRestTemplate(oAuth2RestTemplate);
+        UserInfoTokenServices tokenServices = new UserInfoTokenServices(client.getResource().getUserInfoUri(),
+                client.getClient().getClientId());
+        tokenServices.setRestTemplate(oAuth2RestTemplate);
+        oAuth2ClientAuthenticationFilter.setTokenServices(tokenServices);
+        return oAuth2ClientAuthenticationFilter;
+    }*/
 
     @Bean
     @Override
@@ -109,6 +158,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         bean.setOrder(0);
         return new CorsFilter(source);
     }
+
+
+    /*public class ClientResources {
+
+        @NestedConfigurationProperty
+        private AuthorizationCodeResourceDetails client = new AuthorizationCodeResourceDetails();
+
+        @NestedConfigurationProperty
+        private ResourceServerProperties resource = new ResourceServerProperties();
+
+        public AuthorizationCodeResourceDetails getClient() {
+            return client;
+        }
+
+        public ResourceServerProperties getResource() {
+            return resource;
+        }
+    }*/
 
     // 以下不知为何不起作用，引以为戒
 //    @Override

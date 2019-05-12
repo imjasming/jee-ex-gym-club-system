@@ -1,4 +1,4 @@
-package com.xming.gymclubsystem.bo;
+package com.xming.gymclubsystem.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xming.gymclubsystem.domain.primary.UmUser;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
  * @author Xiaoming.
  * Created on 2019/03/14 01:10.
  */
-public class JwtUserDetails implements UserDetails {
+public class MyUserDetails implements UserDetails {
     private final UmUser user;
 
-    public JwtUserDetails(UmUser user) {
+    public MyUserDetails(UmUser user) {
         this.user = user;
     }
 
