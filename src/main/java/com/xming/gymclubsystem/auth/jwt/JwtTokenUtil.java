@@ -1,6 +1,6 @@
-package com.xming.gymclubsystem.util;
+package com.xming.gymclubsystem.auth.jwt;
 
-import com.xming.gymclubsystem.bo.JwtUserDetails;
+import com.xming.gymclubsystem.auth.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -97,7 +97,7 @@ public class JwtTokenUtil {
     public boolean validateToken(String token, UserDetails userDetails) {
         //Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
 
-        JwtUserDetails user = (JwtUserDetails) userDetails;
+        MyUserDetails user = (MyUserDetails) userDetails;
         final String username = getUsernameFromToken(token);
         final Date created = getIssuedAtDateFromToken(token);
         return (

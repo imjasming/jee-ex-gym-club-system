@@ -8,9 +8,9 @@ import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
 import com.xming.gymclubsystem.repository.secondary.UserInfoRepository;
-import com.xming.gymclubsystem.service.JwtUserDetailsService;
+import com.xming.gymclubsystem.auth.AuthUserDetailsService;
 import com.xming.gymclubsystem.service.UserService;
-import com.xming.gymclubsystem.util.JwtTokenUtil;
+import com.xming.gymclubsystem.auth.jwt.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtUserDetailsService userDetailsService;
+    private AuthUserDetailsService userDetailsService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

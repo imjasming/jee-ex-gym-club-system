@@ -1,6 +1,5 @@
-package com.xming.gymclubsystem.service;
+package com.xming.gymclubsystem.auth;
 
-import com.xming.gymclubsystem.bo.JwtUserDetails;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +12,8 @@ import org.springframework.stereotype.Service;
  * @author Xiaoming.
  * Created on 2019/03/11 23:25.
  */
-@Service
-public class JwtUserDetailsService implements UserDetailsService {
+@Service("authUserDetailsService")
+public class AuthUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
@@ -24,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("用户名错误");
         } else {
-            return new JwtUserDetails(user);
+            return new MyUserDetails(user);
         }
     }
 }
