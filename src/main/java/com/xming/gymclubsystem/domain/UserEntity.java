@@ -15,7 +15,7 @@ public class UserEntity {
     /**
      * 登录名
      */
-    private String name;
+    private String username;
     /**
      * 密码
      */

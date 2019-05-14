@@ -1,6 +1,11 @@
 package com.xming.gymclubsystem.auth.oauth;
 
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.xming.gymclubsystem.domain.UserEntity;
+import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.dto.UserSignUpRequest;
+import com.xming.gymclubsystem.service.GithubService;
 import com.xming.gymclubsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +29,8 @@ public class GithubAuthentication implements MyAuthentication {
    /* @Autowired
     private UserDetailService userDetailService;*/
 
-    //@Autowired
-    //private UserGithubService userGithubService;
+    @Autowired
+    private GithubService githubService;
 
     @Autowired
     private GithubProperties githubProperties;
@@ -44,7 +49,7 @@ public class GithubAuthentication implements MyAuthentication {
 
     @Override
     @Transactional
-    public String getUserId(String code) {
+    public String getUsername(String code) {
 
         MultiValueMap<String, String> requestEntity = new LinkedMultiValueMap<>();
         requestEntity.add("client_id", githubProperties.getClientId());
@@ -61,7 +66,6 @@ public class GithubAuthentication implements MyAuthentication {
 
         if (access_token == null || "".equals(access_token)) {
             return null;
-            //throw new FailedLoginException(message);
         }
 
         String url = GITHUB_USER_URL + "?access_token=" + access_token;
@@ -75,22 +79,43 @@ public class GithubAuthentication implements MyAuthentication {
             String login = githubUserInfo.getString("login");
 
             if (login == null) {
-                //throw new FailedLoginException(githubUserInfo.toString());
+                return null;
             }
 
-            /*userEntity = userService.getEntityByGithubId(login);
+            UmUser userEntity = githubService.getUserByGithubId(login);
+            /*userEntity = userService.getEntityByGithubId(login);*/
 
 
             if (userEntity == null) {
-                return insertUser(githubUserInfo);
+                UserSignUpRequest request = new UserSignUpRequest();
+                request.setEmail(githubUserInfo.getString("email"));
+                request.setUsername(githubUserInfo.getString("login"));
+                request.setGithubId(githubUserInfo.getString("login"));
+                return userService.createUser(request).getUsername();
+                //insertUser(githubUserInfo)
             } else {
-                return String.valueOf(userEntity.getId());
-            }*/
+                return String.valueOf(userEntity.getUsername());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    private String insertUser(JSONObject githubToken) throws JSONException {
+        String headImg = githubToken.getString("avatar_url");
+
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(githubToken.getString("email"));
+        userEntity.setHeadimg(headImg);
+        userEntity.setUsername(githubToken.getString("login"));
+        userEntity.setUrl(githubToken.getString("html_url"));
+        userEntity.setGithubid(githubToken.getString("login"));
+        //userEntity.setCreateTime(DateUtil.currentTimestamp());
+        //userService.insertUser(userEntity);
+
+        return String.valueOf(userEntity.getId());
     }
 }
