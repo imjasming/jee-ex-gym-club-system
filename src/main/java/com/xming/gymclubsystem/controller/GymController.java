@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.service.DataService;
 import io.swagger.annotations.Api;
@@ -23,6 +24,7 @@ public class GymController {
     private DataService dataService;
 
     @ApiOperation("in home page, list gyms info")
+    @RateLimitAspect(permitsPerSecond=10)
     @GetMapping("/gym-list")
     public ResponseEntity getGymList(
             @RequestParam("pageSize") int pageSize,

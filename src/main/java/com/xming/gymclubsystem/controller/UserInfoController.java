@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
@@ -21,6 +22,7 @@ public class UserInfoController {
     @Autowired
     private UserService userService;
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("get user's info")
     @GetMapping("/{username}/info")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable("username") String username) {
@@ -28,6 +30,7 @@ public class UserInfoController {
         return userInfo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(userInfo);
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("update user's profile")
     @PutMapping("/{username}/profile")
     public ResponseEntity updateProfile(@PathVariable String username, @RequestBody UserProfile newProfile) {
@@ -36,6 +39,7 @@ public class UserInfoController {
         return info != null ? ResponseEntity.ok(info) : ResponseEntity.badRequest().body("Profile update failed");
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("update user's password")
     @PutMapping("/{username}/password")
     public ResponseEntity resetPassword(@RequestParam("oldPassword") String oldPassword,

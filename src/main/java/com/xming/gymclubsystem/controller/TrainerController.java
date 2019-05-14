@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.service.DataService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,7 @@ public class TrainerController {
     @Autowired
     private DataService dataService;
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("show trainer's list in home page")
     @GetMapping("/trainers")
     public ResponseEntity getTrainerList(
@@ -32,6 +34,7 @@ public class TrainerController {
         return trainerPage.hasContent() ? ResponseEntity.ok(trainerPage) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data");
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("user add a trainer")
     @PostMapping("/user/{username}/trainer")
     public ResponseEntity addUserSTrainer(@PathVariable String username, @RequestParam("trainerId") int trainerId) {
@@ -40,6 +43,7 @@ public class TrainerController {
         return ResponseEntity.ok().body(trainerList);
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("get user's trainer list")
     @GetMapping("/user/{username}/trainers")
     public ResponseEntity getUserTrainerList(@PathVariable("username") String username) {

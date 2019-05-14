@@ -1,10 +1,13 @@
 package com.xming.gymclubsystem;
 
+import com.xming.gymclubsystem.controller.HateoasController;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.domain.primary.Role;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.domain.secondary.Equipment;
+import com.xming.gymclubsystem.dto.hateoas.GymResource;
+import com.xming.gymclubsystem.dto.hateoas.hatoasResourceAssembler.GymResourceAssembler;
 import com.xming.gymclubsystem.repository.primary.GymRepository;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.TrainerRepository;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.xming.gymclubsystem.domain.primary.Role.RoleName.ROLE_USER;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * 使用Spring提供的Junit的运行器
@@ -162,6 +167,14 @@ public class GymClubSystemApplicationTests {
 	public void testDataRedisCache(){
 
 		System.out.println(dataService.getGym("aaaa"));
+	}
+
+	@Test
+	public void testHato(){
+		GymResource gymResource = new GymResourceAssembler().toResource(dataService.getGym("aaaa"));
+		gymResource.add(linkTo(methodOn(HateoasController.class).greeting("aaaa")).withSelfRel());
+		Gym gym = dataService.getGym("aaaa");
+
 	}
 
 	@Test

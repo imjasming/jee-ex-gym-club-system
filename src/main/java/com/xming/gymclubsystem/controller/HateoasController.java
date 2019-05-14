@@ -2,6 +2,8 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.dto.hateoas.Greeting;
+import com.xming.gymclubsystem.dto.hateoas.GymResource;
+import com.xming.gymclubsystem.dto.hateoas.hatoasResourceAssembler.GymResourceAssembler;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +29,14 @@ public class HateoasController {
 
     private static final String TEMPLATE = "Hello, %s!";
 
-    @RateLimitAspect(permitsPerSecond=1)
+    @RateLimitAspect(permitsPerSecond=10)
     @RequestMapping("/greeting")
-    public HttpEntity<Greeting> greeting(
+    public HttpEntity<GymResource> greeting(
             @RequestParam(value = "name", required = false, defaultValue = "World") String name) {
 
-        Greeting greeting = new Greeting(String.format(TEMPLATE, name));
-        greeting.add(linkTo(methodOn(HateoasController.class).greeting(name)).withSelfRel());
+        GymResource gymResource = new GymResourceAssembler().toResource(dataService.getGym(name));
+        gymResource.add(linkTo(methodOn(HateoasController.class).greeting(name)).withSelfRel());
 
-        return new ResponseEntity<>(greeting, HttpStatus.OK);
+        return new ResponseEntity<GymResource>(gymResource, HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
 import com.xming.gymclubsystem.service.UserService;
@@ -34,6 +35,7 @@ public class UserSignController {
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("sign up")
     @PostMapping(path = "/register")
     public ResponseEntity signUp(
@@ -48,6 +50,7 @@ public class UserSignController {
         //return user == null ? ResponseEntity.badRequest().body("Username or email already exists") : ResponseEntity.created(null).build();
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("user sign in")
     @PostMapping(path = "/login")
     public ResponseEntity login(
