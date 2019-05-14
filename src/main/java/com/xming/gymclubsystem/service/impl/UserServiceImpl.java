@@ -75,24 +75,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UmUser register(UserSignUpRequest signUpParam) {
+    public UmUser createUser(UserSignUpRequest signUpParam) {
         UmUser newUser = new UmUser();
+        BeanUtils.copyProperties(signUpParam, newUser);
+
+        final String password = signUpParam.getPassword();
+        if (password != null) {
+            final String rawPassword = passwordEncoder.encode(password);
+            newUser.setPassword(rawPassword);
+        }
+        final String githubId = signUpParam.getGithubId();
+        if (githubId != null) {
+            newUser.setGithubId(githubId);
+        }
+        newUser.setLastPasswordReset(new Date());
+        newUser.setEnable(true);
+
+        formalAddUserRole(newUser, ROLE_USER);
+        return newUser;
+    }
+
+    @Override
+    public UmUser register(UserSignUpRequest signUpParam) {
         if (userRepository.findByUsername(signUpParam.getUsername()) != null || userRepository.findByEmail(signUpParam.getEmail()) != null) {
             log.warn("username or email exited: {} {}", signUpParam.getUsername(), signUpParam.getEmail());
             return null;
         }
 
-        BeanUtils.copyProperties(signUpParam, newUser);
-        final String rawPassword = passwordEncoder.encode(signUpParam.getPassword());
-        newUser.setPassword(rawPassword);
-        newUser.setLastPasswordReset(new Date());
-//        newUser.setRoles(Collections.singletonList(newRole));
-        newUser.setEnable(true);
-//        roleRepository.save(newRole);
-//        userRepository.save(newUser);
-
-        formalAddUserRole(newUser, ROLE_USER);
-        return newUser;
+        return createUser(signUpParam);
     }
 
     @Override

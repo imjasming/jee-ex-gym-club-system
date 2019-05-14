@@ -1,8 +1,10 @@
 package com.xming.gymclubsystem.domain.primary;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Xiaoming.
@@ -11,7 +13,7 @@ import javax.persistence.*;
  */
 @Data
 @Entity
-public class UserAuth {
+public class UserAuth implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_auth_seq")
     @SequenceGenerator(name = "user_auth_seq", sequenceName = "user_auth_seq", allocationSize = 1)
@@ -25,11 +27,12 @@ public class UserAuth {
      */
     private String identityType;
     /**
-     * 认证标识，18801283506，1@1.com，name，或第三方应用标识，微博id，微信
+     * 认证标识，18801283506，1@1.com，username，或第三方应用标识，微博id，微信
      */
     private String identifier;
     /**
      * 凭据，密码或第三方token（站外也可不保存）
      */
+    @JsonIgnore
     private String credential;
 }

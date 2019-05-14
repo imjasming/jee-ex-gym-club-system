@@ -12,7 +12,6 @@ import com.xming.gymclubsystem.repository.primary.GymRepository;
 import com.xming.gymclubsystem.repository.primary.RoleRepository;
 import com.xming.gymclubsystem.repository.primary.TrainerRepository;
 import com.xming.gymclubsystem.repository.primary.UserRepository;
-import com.xming.gymclubsystem.repository.secondary.EquipmentRepository;
 import com.xming.gymclubsystem.service.DataService;
 import com.xming.gymclubsystem.service.UserService;
 import org.junit.Test;
@@ -149,7 +148,7 @@ public class GymClubSystemApplicationTests {
 //		trainer.setAge(18);
 //		trainer.setEmail("ss@qq.com");
 //		trainer.setGym(gym);
-//		trainer.setName("cw");
+//		trainer.setUsername("cw");
 //		trainer.setPosition("PE");
 //		trainer.setSalary(20000.3);
 //		trainer.setTelephone("18801130810");
@@ -240,7 +239,7 @@ public class GymClubSystemApplicationTests {
 //		trainer.setAge(18);
 //		trainer.setEmail("ss@qq.com");
 //
-//		trainer.setName("chz");
+//		trainer.setUsername("chz");
 //		trainer.setPosition("PE");
 //		trainer.setSalary(20000.3);
 //		trainer.setTelephone("18801130810");

@@ -1,8 +1,10 @@
 package com.xming.gymclubsystem.controller;
 
+import com.xming.gymclubsystem.auth.jwt.JwtTokenUtil;
 import com.xming.gymclubsystem.auth.oauth.GithubAuthentication;
 import com.xming.gymclubsystem.auth.oauth.MyAuthenticationToken;
 import com.xming.gymclubsystem.auth.oauth.exception.LoginSuccessHandler;
+import com.xming.gymclubsystem.service.GithubService;
 import com.xming.gymclubsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +34,16 @@ import java.util.Map;
 public class AuthController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private GithubService githubService;
     //@Autowired
     //private ClientRegistrationRepository clientRegistrationRepository;
     @Autowired
     private GithubAuthentication githubAuthentication;
     @Autowired
     private LoginSuccessHandler loginSuccessHandler;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -100,7 +107,6 @@ public class AuthController {
             @RequestParam("code") String code,
             @RequestParam("state") String state,
             @PathVariable("client") String client) throws IOException {
-        //ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(client);
 
         if (code == null || "".equals(code)) {
             return ResponseEntity.badRequest().build();
@@ -108,7 +114,7 @@ public class AuthController {
 
         code = code.trim();
 
-        String id = githubAuthentication.getUserId(code);
+        String id = githubAuthentication.getUsername(code);
         if (id == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -116,6 +122,8 @@ public class AuthController {
 
         authRequest.setDetails(new OAuth2AuthenticationDetails(request));
 
-        return ResponseEntity.ok(loginSuccessHandler.getAccessToken(request, response, authRequest));
+        OAuth2AccessToken accessToken = loginSuccessHandler.getAccessToken(request, response, authRequest);
+
+        return ResponseEntity.ok(githubService.getTokenByUsername(id));
     }
 }

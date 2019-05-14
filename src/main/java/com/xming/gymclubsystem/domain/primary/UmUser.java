@@ -30,13 +30,15 @@ public class UmUser implements Serializable {
     private String username;
 
     @JsonIgnore
-    @Column(nullable = false, length = 128)
+    @Column(length = 128)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String email;
 
     private String nickname;
+
+    private String githubId;
 
     @Column
     private Date lastPasswordReset;

@@ -10,6 +10,8 @@ import com.xming.gymclubsystem.dto.UserSignUpRequest;
  * Created on 2019/03/29 18:21.
  */
 public interface UserService {
+    UmUser createUser(UserSignUpRequest signUpParam);
+
     UmUser register(UserSignUpRequest signUpParam);
 
     String login(String username, String password);
