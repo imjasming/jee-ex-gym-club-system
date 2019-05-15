@@ -5,6 +5,12 @@
 本项目为Java EE课程作业后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
 目前实现功能：基本的登录注册，用户信息修改（包括修改密码），分页检索gym数据，分页检索trainers数据，对gym和trainer数据缓存，添加及检索私人trainer  
 详细见[设计文档](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+## 项目升级
+### v1.02
+> + 接口设计统一 to restful； hateos
+> + 整合 Oauth2.0（授权服务），支持github登录
+> + 整合google guava的 rate limit
+> + web静态资源缓存（cache-control， max-age，etag...)
 ## 项目团队
 张小明（16301026），程威（16301032）
 # 项目结构  
