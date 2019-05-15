@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.ResourceSupport;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Greeting extends ResourceSupport {
 
     private final String content;

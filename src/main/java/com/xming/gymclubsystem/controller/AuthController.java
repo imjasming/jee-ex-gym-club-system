@@ -4,6 +4,7 @@ import com.xming.gymclubsystem.auth.jwt.JwtTokenUtil;
 import com.xming.gymclubsystem.auth.oauth.GithubAuthentication;
 import com.xming.gymclubsystem.auth.oauth.MyAuthenticationToken;
 import com.xming.gymclubsystem.auth.oauth.exception.LoginSuccessHandler;
+import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.service.GithubService;
 import com.xming.gymclubsystem.service.UserService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * @author Xiaoming.
@@ -51,6 +54,7 @@ public class AuthController {
     private String tokenHeader;
 
 
+    @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("user sign in")
     @PostMapping(path = "/login")
     public ResponseEntity login(
@@ -76,6 +80,7 @@ public class AuthController {
      * @param request
      * @return oauth client list
      */
+    @RateLimitAspect(permitsPerSecond=10)
     @GetMapping("/oauth2-client")
     public ResponseEntity getOauth2Client(HttpServletRequest request) {
         /*Iterable<ClientRegistration> clientRegistrations = null;
@@ -100,6 +105,7 @@ public class AuthController {
         return ResponseEntity.ok(Collections.singletonList(client));
     }
 
+    @RateLimitAspect(permitsPerSecond=10)
     @GetMapping("/oauth2/code/{client}")
     public ResponseEntity oauthLogin(
             HttpServletRequest request,
