@@ -10,6 +10,7 @@
  + +接口设计统一 to restful； hateos
  + +整合 Oauth2.0（授权服务），支持github登录
  + +整合google guava的 rate limit
+ + +整合 Swagger文档生产工具
  + +web静态资源缓存（cache-control， max-age，etag...)
 ## 项目团队
 张小明（16301026），程威（16301032）
