@@ -157,7 +157,27 @@ src
                         GymClubSystemApplicationTests.java --- 测试类
 ```
 # 技术
-#### 后端技术
+## 后端技术
+### 认证与授权
+Spring Security OAuth2 + JWT
+Authentication code 方式，从github获取 access_token 和 github user部分代码
+```
+auth.oauth.GithubAuthentication.java
+        requestEntity.add("client_id", githubProperties.getClientId());
+        requestEntity.add("client_secret", githubProperties.getClientSecret());
+        requestEntity.add("code", code);
+        // 获取 GitHub access_token
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(GITHUB_ACCESS_TOKEN_URL, requestEntity, String.class);
+        String message = responseEntity.getBody().trim();
+        // 从 response 中获取 token
+        String access_token = message.split("&")[0].split("=")[1];
+        if (access_token == null || "".equals(access_token)) {
+            return null;
+        }
+        String url = GITHUB_USER_URL + "?access_token=" + access_token;
+        // 获取 github user
+        responseEntity = restTemplate.getForEntity(url, String.class);
+```
 
 技术 | 说明 
 ----|----
@@ -171,7 +191,7 @@ Lombok | 简化对象封装工具
 Mysql | 关系数据库
 H2 | 嵌入式开源关系数据库
 
-#### 前端技术
+## 前端技术
 
 技术 | 说明
 ----|----
