@@ -11,94 +11,143 @@
 ```
 .
 src
- ├─main
- │  ├─java
- │  │  └─com
- │  │      └─xming
- │  │          └─gymclubsystem
- │  │              │  GymClubSystemApplication.java -- main()
- │  │              │  
- │  │              ├─bo
- │  │              │      JwtUserDetails.java -------------------- Spring Security 用户实体类，用于认证
- │  │              │      
- │  │              ├─components
- │  │              │      Global500Exceptionhandler.java --------- 全局服务端异常控制
- │  │              │      JwtAuthenticationSuccessHandler.java --- 登录成功后操作控制
- │  │              │      JwtAuthenticationTokenFilter.java ------ 登录验证过滤器
- │  │              │      RestAccessDeniedHandler.java ----------- 认证失败发送401错误消息
- │  │              │      RestAuthenticationEntryPoint.java ------ 认证失败发送401错误消息
- │  │              │      RestAuthenticationFailureHandler.java -- 认证失败发送401错误消息
- │  │              │      
- │  │              ├─config
- │  │              │      DataSourceConfig.java ---------- 【多数据源配置】
- │  │              │      PrimaryConfig.java ------------- MySql数据库配置
- │  │              │      RedisConfig.java --------------- redis缓存配置
- │  │              │      SecondaryConfig.java ----------- H2数据库配置
- │  │              │      WebMvcConfigurer.java --------- （弃用）FastJson使用配置
- │  │              │      WebSecurityConfig.java --------- Spring Security 配置
- │  │              │      
- │  │              ├─controller
- │  │              │      GymController.java ------------- gym分页请求控制器
- │  │              │      TrainerController.java --------- trainer分页请求，用户私人trainer添加及检索控制器
- │  │              │      UserInfoController.java -------- 用户信息检索及修改控制器
- │  │              │      UserSignController.java -------- 用户登录注册控制器
- │  │              │      
- │  │              ├─domain -- 实体
- │  │              │  ├─primary -------------------------- 主数据库（Mysql）实体类包
- │  │              │  │      Gym.java
- │  │              │  │      Role.java
- │  │              │  │      Trainer.java
- │  │              │  │      UmUser.java
- │  │              │  │      
- │  │              │  └─secondary ------------------------ H2数据库实体类包
- │  │              │         UserInfo.java 
- │  │              │          
- │  │              ├─dto ---------------------- 数据传输对象
- │  │              │      RestResponse.java -------------- 封装Rest响应数据
- │  │              │      UserProfile.java --------------- 用户信息修改传输对象
- │  │              │      UserSignUpRequest.java --------- 用户注册信息传输对象
- │  │              │      
- │  │              ├─repository -------------------------- 【jpa 数据访问对象包】
- │  │              │  ├─primary -------------------------- Mysql数据访问对象包
- │  │              │  │      GymRepository.java
- │  │              │  │      RoleRepository.java
- │  │              │  │      TrainerRepository.java
- │  │              │  │      UserRepository.java
- │  │              │  │      
- │  │              │  └─secondary ------------------------ H2数据访问对象包
- │  │              │         UserInfoRepository.java
- │  │              │          
- │  │              ├─service -- 
- │  │              │  │  DataService.java ---------------- gym和trainer实体类分页检索，数据修改，添加private trainer接口
- │  │              │  │  JwtUserDetailsService.java ------ spring security获取用户方式
- │  │              │  │  UserService.java ---------------- 用户登录，注册，信息检索及修改接口
- │  │              │  │  
- │  │              │  └─impl
- │  │              │       DataServiceImpl.java ---------- gym和trainer实体类【分页】检索，【服务层必要数据缓存】
- │  │              │                                           ，数据修改，添加private trainer实现类
- │  │              │       UserServiceImpl.java ---------- 用户登录，注册，信息检索及修改实现类，【H2使用】
- │  │              │          
- │  │              └─util -- 工具包
- │  │                      JwtTokenUtil.java ------------- JwtToken生成，校验，刷新，从token获取信息工具类
- │  │                      RedisOperator.java ------------ Redis操作工具类
- │  │                      UserUtil.java ----------------- 用户工具类
- │  │                      
- │  └─resources
- │      │  application.properties ------------------------ spring boot 服务器配置
- │      │  
- │      ├─static ----------------------------------------- 静态文件
- │      │  └─img
- │      │          gym.jpg
- │      │          head.png
- │      │          trainericon.jpg
- │      │          
- │      └─templates
- └─test
-     └─java
-         └─com
-             └─xming
-                 └─gymclubsystem
-                       GymClubSystemApplicationTests.java -- 测试类
+├─main
+│  ├─java
+│  │  └─com
+│  │      └─xming
+│  │          └─gymclubsystem
+│  │              │  GymClubSystemApplication.java --------------------- main()入口
+│  │              │  
+│  │              ├─auth -------------------------------------------- 认证授权服务类包
+│  │              │  │  AuthUserDetailsService.java ---------------------- spring security认证获取用户方式
+│  │              │  │  MyUserDetails.java ------------------------------- Spring Security 用户实体类，用于认证
+│  │              │  │  RestAuthenticationEntryPoint.java ---------------- 认证失败处理（响应401错误）
+│  │              │  │  WebSecurityConfig.java --------------------------- Spring Security 配置
+│  │              │  │  
+│  │              │  ├─jwt------------------------------------------- jwt认证服务类包
+│  │              │  │  │  JwtAuthenticationTokenFilter.java ------------- 登录验证过滤器
+│  │              │  │  │  JwtTokenUtil.java ----------------------------- JwtToken生成，校验，刷新，从token获取信息工具类
+│  │              │  │  │  
+│  │              │  │  └─handler ---------------------------------------- 认证失败控制
+│  │              │  │          RestAccessDeniedHandler.java
+│  │              │  │          RestAuthenticationFailureHandler.java
+│  │              │  │          
+│  │              │  └─oauth ---------------------------------------- Oauth认证授权服务类包
+│  │              │      │  GithubAuthentication.java -------------------- github Oauth 认证流程处理
+│  │              │      │  GithubProperties.java ------------------------ github oauth client 环境变量
+│  │              │      │  MyAuthentication.java ------------------------ 认证流程处理基类
+│  │              │      │  MyAuthenticationToken.java ------------------- oauth认证信息
+│  │              │      │  MyAuthorizationServerConfigurerAdapter.java -- oauth授权服务配置
+│  │              │      │  OauthClientDetails.java ---------------------- oauth client实体类
+│  │              │      │  OauthClientDetailsService.java --------------- oauth client实体获取
+│  │              │      │  OauthSavedRequestAwareAuthenticationSuccessHandler.java ---- oauth认证成功后重定向到前端页面
+│  │              │      │  
+│  │              │      └─exception ------------------------------------- 异常控制
+│  │              │              LoginFailureExcepiton.java -------------- 登录异常类
+│  │              │              LoginFailureHandler.java ---------------- 全局登录异常控制
+│  │              │              LoginSuccessHandler.java ---------------- oauth认证成功流程控制，包括验证token
+│  │              │              
+│  │              ├─common
+│  │              │  └─annotation
+│  │              │          RateLimitAspect.java ----------------------- 【rete limit】切面注解
+│  │              │          
+│  │              ├─components
+│  │              │      Global500Exceptionhandler.java ----------------- 全局500异常控制
+│  │              │      RateLimitAop.java ------------------------------ 【rete limit】切面
+│  │              │      
+│  │              ├─config
+│  │              │      DataSourceConfig.java -------------------------- 【多数据源配置】
+│  │              │      PrimaryConfig.java ----------------------------- MySql数据库配置
+│  │              │      RedisConfig.java ------------------------------- redis缓存配置
+│  │              │      SecondaryConfig.java --------------------------- H2数据库配置
+│  │              │      Swagger2Config.java ---------------------------- 【swagger】 api 配置
+│  │              │      WebMvcConfigurer.java -------------------------- 【web静态资源缓存】配置
+│  │              │      
+│  │              ├─controller
+│  │              │      AuthController.java ---------------------------- jwt和oauth2认证请求控制器
+│  │              │      GymController.java ----------------------------- gym分页请求控制器
+│  │              │      HateoasController.java
+│  │              │      TrainerController.java ------------------------- trainer分页请求，用户私人trainer添加及检索控制器
+│  │              │      UserInfoController.java ------------------------ 用户信息检索及修改控制器
+│  │              │      UserSignUpController.java ---------------------- 用户注册请求控制器
+│  │              │      
+│  │              ├─domain
+│  │              │  │  UserEntity.java --------------------------------- 欲用于oauth的新用户实体类
+│  │              │  │  UserGithubEntity.java --------------------------- github 用户实体类
+│  │              │  │  
+│  │              │  ├─primary -------------------------------------- 主数据库（Mysql）实体类包
+│  │              │  │      Gym.java
+│  │              │  │      Role.java
+│  │              │  │      Trainer.java
+│  │              │  │      UmUser.java
+│  │              │  │      UserAuth.java
+│  │              │  │      
+│  │              │  └─secondary ------------------------------------- H2数据库实体类包
+│  │              │          Equipment.java
+│  │              │          UserInfo.java
+│  │              │          
+│  │              ├─dto ---------------------------------------------- 数据传输对象
+│  │              │  │  GithubAuthServiceResult.java --------------------- github oauth认证服务结果对象
+│  │              │  │  RestResponse.java
+│  │              │  │  UserProfile.java
+│  │              │  │  UserSignUpRequest.java
+│  │              │  │  
+│  │              │  └─hateoas
+│  │              │      │  EquipmentResource.java
+│  │              │      │  Greeting.java
+│  │              │      │  GymResource.java
+│  │              │      │  TrainResource.java
+│  │              │      │  UserResource.java
+│  │              │      │  
+│  │              │      └─hatoasResourceAssembler
+│  │              │              EquipmentResourceAssembler.java
+│  │              │              GymResourceAssembler.java
+│  │              │              TrainerResourceAssembler.java
+│  │              │              UserResourceAssembler.java
+│  │              │              
+│  │              ├─repository -------------------------------------------- 【jpa 数据访问对象包】
+│  │              │  ├─primary --------------------------------------------- Mysql数据访问对象包
+│  │              │  │      GymRepository.java
+│  │              │  │      RoleRepository.java
+│  │              │  │      TrainerRepository.java
+│  │              │  │      UserRepository.java
+│  │              │  │      
+│  │              │  └─secondary ------------------------------------------ H2数据访问对象包
+│  │              │          EquipmentRepository.java
+│  │              │          UserInfoRepository.java
+│  │              │          
+│  │              ├─service
+│  │              │  │  DataService.java ----------------- gym和trainer实体类分页检索，数据修改，添加private trainer接口
+│  │              │  │  GithubService.java --------------- github授权服务处理
+│  │              │  │  UserService.java  ---------------- 用户创建，登录，注册，信息检索及修改接口
+│  │              │  │  
+│  │              │  └─impl
+│  │              │          DataServiceImpl.java ---------- gym和trainer实体类【分页】检索，【服务层必要数据缓存】
+│  │              │                                           ，数据修改，添加private trainer实现类
+│  │              │          GithubServiceImpl.java -------- github授权服务处理实现类
+│  │              │          UserServiceImpl.java ---------- gym和trainer实体类【分页】检索，【服务层必要数据缓存】
+│  │              │                                           ，数据修改，添加private trainer实现类
+│  │              │          
+│  │              └─util
+│  │                      RedisOperator.java  -------------- Redis操作工具类
+│  │                      UserUtil.java -------------------- 用户工具类
+│  │                      
+│  └─resources
+│      │  application.yml --------------------------------- spring boot 服务器环境配置
+│      │  
+│      ├─static ------------------------------------------- 静态文件
+│      │  └─img
+│      │          gym.jpg
+│      │          head.png
+│      │          trainericon.jpg
+│      │          
+│      └─templates
+└─test
+    └─java
+        └─com
+            └─xming
+                └─gymclubsystem
+                        GymClubSystemApplicationTests.java --- 测试类
 ```
 # 技术
 #### 后端技术
