@@ -49,11 +49,11 @@ src
 │  │              │              
 │  │              ├─common
 │  │              │  └─annotation
-│  │              │          RateLimitAspect.java ----------------------- 【rete limit】切面注解
+│  │              │          RateLimitAspect.java ----------------------- 【rate limit】切面注解
 │  │              │          
 │  │              ├─components
 │  │              │      Global500Exceptionhandler.java ----------------- 全局500异常控制
-│  │              │      RateLimitAop.java ------------------------------ 【rete limit】切面
+│  │              │      RateLimitAop.java ------------------------------ 【rate limit】切面
 │  │              │      
 │  │              ├─config
 │  │              │      DataSourceConfig.java -------------------------- 【多数据源配置】
@@ -92,18 +92,18 @@ src
 │  │              │  │  UserProfile.java
 │  │              │  │  UserSignUpRequest.java
 │  │              │  │  
-│  │              │  └─hateoas
-│  │              │      │  EquipmentResource.java
-│  │              │      │  Greeting.java
-│  │              │      │  GymResource.java
-│  │              │      │  TrainResource.java
-│  │              │      │  UserResource.java
+│  │              │  └─hateoas-------------------------------------------- hateoas 资源申明以及组装文件夹
+│  │              │      │  EquipmentResource.java------------------------ 设备资源类
+│  │              │      │  Greeting.java--------------------------------- 测试
+│  │              │      │  GymResource.java------------------------------ 俱乐部资源类
+│  │              │      │  TrainResource.java---------------------------- 教练资源类
+│  │              │      │  UserResource.java----------------------------- 用户资源类
 │  │              │      │  
-│  │              │      └─hatoasResourceAssembler
-│  │              │              EquipmentResourceAssembler.java
-│  │              │              GymResourceAssembler.java
-│  │              │              TrainerResourceAssembler.java
-│  │              │              UserResourceAssembler.java
+│  │              │      └─hatoasResourceAssembler------------------------ hateoas 资源组装类，可快速实现资源组装
+│  │              │              EquipmentResourceAssembler.java---------- 设备资源组装
+│  │              │              GymResourceAssembler.java---------------- 俱乐部资源组装
+│  │              │              TrainerResourceAssembler.java------------ 教练资源组装
+│  │              │              UserResourceAssembler.java--------------- 用户资源组装
 │  │              │              
 │  │              ├─repository -------------------------------------------- 【jpa 数据访问对象包】
 │  │              │  ├─primary --------------------------------------------- Mysql数据访问对象包
