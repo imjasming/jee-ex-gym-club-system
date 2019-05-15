@@ -2,7 +2,7 @@
 # 说明  
 > Gym Club 项目为前后端分离项目，前端项目`jee-ex-gym-club-system-web`地址：[gym-club-system-web](https://github.com/imjasming/jee-ex-gym-club-system-web)  
 # 项目介绍  
-本项目为Java EE课程作业后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
+本项目为【Java EE课程作业】后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
 目前实现功能：基本的登录注册，用户信息修改（包括修改密码），分页检索gym数据，分页检索trainers数据，对gym和trainer数据缓存，添加及检索私人trainer  
 详细见[设计文档](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
 ## 项目升级
@@ -180,3 +180,6 @@ Vuex | 全局状态管理框架
 Element | 前端UI框架 
 Axios | 前端HTTP框架 
 Js-cookie | cookie管理工具 
+
+# 最后
+本项目为 JavaEE 课程作业，仅作参考，技术小白学习中 (-_-)
