@@ -190,6 +190,7 @@ JWT | JWT登录支持
 Lombok | 简化对象封装工具 
 Mysql | 关系数据库
 H2 | 嵌入式开源关系数据库
+Version   | restful 版本控制
 
 ## 前端技术
 
