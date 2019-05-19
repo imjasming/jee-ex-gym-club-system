@@ -1,6 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
+import com.xming.gymclubsystem.components.KafKaCustomProducer;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.dto.hateoas.TrainResource;
 import com.xming.gymclubsystem.dto.hateoas.hatoasResourceAssembler.TrainerResourceAssembler;
@@ -15,9 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 
 
 /**
@@ -29,8 +30,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class TrainerController {
     @Autowired
     private DataService dataService;
+    @Autowired
+    private KafKaCustomProducer<List<Trainer>> sender;
 
-    @RateLimitAspect(permitsPerSecond=10)
+
+    @RateLimitAspect(permitsPerSecond = 10)
     @ApiOperation("show trainer's list in home page")
     @GetMapping("/trainers")
     public ResponseEntity getTrainerList(
@@ -41,7 +45,7 @@ public class TrainerController {
         return trainerPage.hasContent() ? ResponseEntity.ok(trainerPage) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data");
     }
 
-    @RateLimitAspect(permitsPerSecond=10)
+    @RateLimitAspect(permitsPerSecond = 10)
     @ApiOperation("user add a trainer")
     @PostMapping("/user/{username}/trainer")
     public ResponseEntity addUserSTrainer(@PathVariable String username, @RequestParam("trainerId") int trainerId) {
@@ -49,26 +53,29 @@ public class TrainerController {
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
 
         //hateoasList
-        Resources<TrainResource> resources=new Resources<TrainResource>(new
+        Resources<TrainResource> resources = new Resources<TrainResource>(new
 
                 TrainerResourceAssembler().toResources(trainerList));
+        //Kafka异步发送消息
+        sender.send(trainerList);
 
         //return ResponseEntity.ok().body(trainerList);
         return ResponseEntity.ok().body(resources.getContent());
     }
 
-    @RateLimitAspect(permitsPerSecond=10)
+    @RateLimitAspect(permitsPerSecond = 10)
     @ApiOperation("get user's trainer list")
     @GetMapping("/user/{username}/trainers")
     public ResponseEntity getUserTrainerList(@PathVariable("username") String username) {
+
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
-
-
         //hateoasList
-        Resources<TrainResource> resources=new Resources<TrainResource>(new
+        Resources<TrainResource> resources = new Resources<TrainResource>(new
 
                 TrainerResourceAssembler().toResources(trainerList));
 
+        //Kafka异步发送消息
+        sender.send(trainerList);
 
         //return trainerList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data") : ResponseEntity.ok(trainerList);
         return trainerList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data") : ResponseEntity.ok(resources.getContent());

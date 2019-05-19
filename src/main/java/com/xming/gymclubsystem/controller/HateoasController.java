@@ -44,8 +44,6 @@ public class HateoasController {
     @Autowired
     private KafKaCustomProducer<String> sender;
 
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
 
 
     private static final String TEMPLATE = "Hello, %s!";

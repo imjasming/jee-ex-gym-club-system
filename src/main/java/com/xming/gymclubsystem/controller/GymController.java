@@ -1,6 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
+import com.xming.gymclubsystem.components.KafKaCustomProducer;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.service.DataService;
 import io.swagger.annotations.Api;
@@ -24,6 +25,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class GymController {
     @Autowired
     private DataService dataService;
+
 
     @ApiOperation("in home page, list gyms info")
     @RateLimitAspect(permitsPerSecond=10)
