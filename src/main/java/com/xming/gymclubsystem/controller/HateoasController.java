@@ -1,6 +1,8 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
+
+import com.xming.gymclubsystem.components.KafKaCustomProducer;
 import com.xming.gymclubsystem.domain.primary.Gym;
 import com.xming.gymclubsystem.dto.hateoas.Greeting;
 import com.xming.gymclubsystem.dto.hateoas.GymResource;
@@ -16,6 +18,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +41,12 @@ public class HateoasController {
     @Autowired
     private GymRepository gymRepository;
 
+    @Autowired
+    private KafKaCustomProducer<String> sender;
+
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
 
     private static final String TEMPLATE = "Hello, %s!";
 
@@ -56,4 +65,12 @@ public class HateoasController {
 
         return new ResponseEntity(resources.getContent(), HttpStatus.OK);
     }
+
+
+    @RequestMapping("/kafka")
+    public String send( @RequestParam(value = "con", required = false, defaultValue = "hello kafka") String con) {
+        sender.send(con);
+        return con;
+    }
+
 }

@@ -7,6 +7,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -65,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/*.png"
                 ).permitAll()
                 .antMatchers("/swagger-resources/**", "/v2/api-docs/**").permitAll()  // swagger资源
-                .antMatchers("/auth/**", "/register", "/oauth2/**", "/greeting").permitAll()// 对登录注册要允许匿名访问
+                .antMatchers("/auth/**", "/register", "/oauth2/**", "/greeting","/kafka").permitAll()// 对登录注册要允许匿名访问
                 .antMatchers(HttpMethod.OPTIONS).permitAll()//跨域请求会先进行一次options请求
                 .anyRequest().authenticated()  // 除上面外的所有请求全部需要鉴权认证
                 .and()

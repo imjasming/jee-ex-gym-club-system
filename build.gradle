@@ -74,6 +74,12 @@ dependencies {
     implementation('org.springframework.security:spring-security-oauth2-jose:5.0.0.RELEASE')
     //implementation 'org.springframework.cloud:spring-cloud-starter-oauth2'
     //implementation 'org.springframework.cloud:spring-cloud-starter-security'
+    
+    
+    //kafka
+    implementation('org.springframework.kafka:spring-kafka')
+    testImplementation('org.springframework.kafka:spring-kafka-test')
+    
 }
 
 /*
