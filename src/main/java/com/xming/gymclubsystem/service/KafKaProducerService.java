@@ -1,27 +1,21 @@
-package com.xming.gymclubsystem.components;
+package com.xming.gymclubsystem.service;
 
 import com.alibaba.fastjson.JSON;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+@Service
+public class KafKaProducerService<T> {
 
-
-@Component
-public class KafKaCustomProducer<T> {
-
-    private Logger logger = LoggerFactory.getLogger(KafKaCustomProducer.class);
+    private Logger logger = LoggerFactory.getLogger(KafKaProducerService.class);
 
     @Autowired
     private KafkaTemplate kafkaTemplate;
@@ -48,7 +42,7 @@ public class KafKaCustomProducer<T> {
             public void onSuccess(SendResult<String, Object> stringObjectSendResult) {
                 //TODO 业务处理
                 logger.info("Produce: The message was sent successfully:");
-                logger.info("Produce: _+_+_+_+_+_+_+ result: " + stringObjectSendResult.toString());
+                logger.info("Produce: result: " + stringObjectSendResult.toString());
             }
         });
     }

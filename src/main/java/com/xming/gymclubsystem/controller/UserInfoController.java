@@ -1,8 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
-import com.xming.gymclubsystem.components.KafKaCustomProducer;
-import com.xming.gymclubsystem.domain.primary.Trainer;
+import com.xming.gymclubsystem.service.KafKaProducerService;
 import com.xming.gymclubsystem.domain.primary.UmUser;
 import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserProfile;
@@ -12,11 +11,8 @@ import com.xming.gymclubsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -33,7 +29,7 @@ public class UserInfoController {
     private UserService userService;
 
     @Autowired
-    private KafKaCustomProducer<UserInfo> sender;
+    private KafKaProducerService<UserInfo> sender;
 
 
     @RateLimitAspect(permitsPerSecond=10)

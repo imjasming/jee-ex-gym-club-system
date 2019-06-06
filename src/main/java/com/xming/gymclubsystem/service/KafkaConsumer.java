@@ -1,7 +1,5 @@
-package com.xming.gymclubsystem.components;
+package com.xming.gymclubsystem.service;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,16 +11,16 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class KafkaSimpleConsumer {
+public class KafkaConsumer {
 
-    private Logger logger = LoggerFactory.getLogger(KafkaSimpleConsumer.class);
+    private Logger logger = LoggerFactory.getLogger(KafkaConsumer.class);
     /**
-     * 监听kafka.tut 的 topic
+     * 监听kafka的 topic
      *
      * @param record
      * @param topic  topic
      */
-    @KafkaListener(id = "tut", topics = "test")
+    @KafkaListener(topics = "test")
     public void listen(ConsumerRecord<?, ?> record, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         //判断是否NULL
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());

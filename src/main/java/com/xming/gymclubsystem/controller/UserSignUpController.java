@@ -2,7 +2,9 @@ package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
 import com.xming.gymclubsystem.domain.primary.UmUser;
+import com.xming.gymclubsystem.domain.secondary.UserInfo;
 import com.xming.gymclubsystem.dto.UserSignUpRequest;
+import com.xming.gymclubsystem.service.KafKaProducerService;
 import com.xming.gymclubsystem.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +22,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UserSignUpController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private KafKaProducerService<UmUser> sender;
 
     @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("sign up")
@@ -29,6 +33,8 @@ public class UserSignUpController {
             @RequestBody UserSignUpRequest request) {
         UmUser user = userService.register(request);
         if (user != null) {
+            //kafka异步发送消息
+            sender.send(user);
             return ResponseEntity.ok(null);
         } else {
             return ResponseEntity.badRequest().body("Username or email already exists");

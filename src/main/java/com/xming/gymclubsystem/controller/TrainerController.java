@@ -1,7 +1,7 @@
 package com.xming.gymclubsystem.controller;
 
 import com.xming.gymclubsystem.common.annotation.RateLimitAspect;
-import com.xming.gymclubsystem.components.KafKaCustomProducer;
+import com.xming.gymclubsystem.service.KafKaProducerService;
 import com.xming.gymclubsystem.domain.primary.Trainer;
 import com.xming.gymclubsystem.dto.hateoas.TrainResource;
 import com.xming.gymclubsystem.dto.hateoas.hatoasResourceAssembler.TrainerResourceAssembler;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 /**
@@ -31,7 +30,7 @@ public class TrainerController {
     @Autowired
     private DataService dataService;
     @Autowired
-    private KafKaCustomProducer<List<Trainer>> sender;
+    private KafKaProducerService<List<Trainer>> sender;
 
 
     @RateLimitAspect(permitsPerSecond = 10)
