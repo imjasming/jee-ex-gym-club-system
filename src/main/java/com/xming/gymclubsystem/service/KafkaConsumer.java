@@ -38,6 +38,7 @@ public class KafkaConsumer {
      * @param record
      * @param topic  topic
      */
+    //这个是为了测试而写的代码
     @KafkaListener(topics = {"gyms"})
     public void listen(ConsumerRecord<?, ?> record, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) {
         //判断是否NULL
@@ -66,8 +67,8 @@ public class KafkaConsumer {
 
             UserInfo userInfo = userService.getUserInfoByName((String) message);
             //保存到redis数据库里面，key 为Username ，v 为UserInfo jsOn串
-            redisTemplate.opsForList().rightPop(message);
-            redisTemplate.opsForList().rightPush(message, userInfo);
+
+            redisTemplate.opsForValue().set(message, userInfo);
 
         }
     }
@@ -103,7 +104,4 @@ public class KafkaConsumer {
             redisTemplate.opsForList().rightPush(message, trainerList);
         }
     }
-
-
-
 }

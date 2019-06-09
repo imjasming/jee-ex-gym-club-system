@@ -43,12 +43,18 @@ public class UserInfoController {
 
 
         UserInfo userInfo = (UserInfo) redisTemplate.opsForValue().get(username);
+        if(userInfo==null){
+            userInfo =  userService.getUserInfoByName(username);
+            if (userInfo!=null){
+                //如果userinfo有内容，异步发送消息去执行UserInfo放到redis 数据库中，以便下次直接读取
+                //Kafka异步发送消息
+                sender.send("getInfo",username);
+            }
+        }
+
 
         UserInfoResource userInfoResource = null;
         if (userInfo!=null){
-            //如果userinfo为空，异步发送消息去执行UserInfo获取
-            //Kafka异步发送消息
-            sender.send("getInfo",username);
             //hateoasList
             userInfoResource = new UserInfoResourceAssembler().toResource(userInfo);
             userInfoResource.add(linkTo(methodOn(UserInfoController.class).getUserInfo(username)).withSelfRel());
