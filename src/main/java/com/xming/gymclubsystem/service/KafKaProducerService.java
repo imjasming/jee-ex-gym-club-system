@@ -26,12 +26,12 @@ public class KafKaProducerService<T> {
      * @param obj 消息对象
      */
     @Async
-    public void send(T obj) {
+    public void send(String topic,T obj) {
         String jsonObj = JSON.toJSONString(obj);
         logger.info("------------ message = {}", jsonObj);
 
         //发送消息
-        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send("test", jsonObj);
+        ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(topic, jsonObj);
         future.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override
             public void onFailure(Throwable throwable) {

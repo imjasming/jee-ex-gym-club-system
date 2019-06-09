@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,9 @@ public class TrainerController {
     @Autowired
     private DataService dataService;
     @Autowired
-    private KafKaProducerService<List<Trainer>> sender;
+    private KafKaProducerService<String> sender;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @RateLimitAspect(permitsPerSecond = 10)
@@ -49,14 +52,15 @@ public class TrainerController {
     @PostMapping("/user/{username}/trainer")
     public ResponseEntity addUserSTrainer(@PathVariable String username, @RequestParam("trainerId") int trainerId) {
         dataService.addUserTrainerByID(username, trainerId);
+
         final List<Trainer> trainerList = dataService.getUserTrainers(username);
 
         //hateoasList
         Resources<TrainResource> resources = new Resources<TrainResource>(new
 
                 TrainerResourceAssembler().toResources(trainerList));
-        //Kafka异步发送消息
-        sender.send(trainerList);
+        //Kafka异步发送消息存储到redis数据库中，以便于用户在查找时直接从数据库获取
+        sender.send("userAddTrainers",username);
 
         //return ResponseEntity.ok().body(trainerList);
         return ResponseEntity.ok().body(resources.getContent());
@@ -67,14 +71,20 @@ public class TrainerController {
     @GetMapping("/user/{username}/trainers")
     public ResponseEntity getUserTrainerList(@PathVariable("username") String username) {
 
-        final List<Trainer> trainerList = dataService.getUserTrainers(username);
+
+        List<Trainer> trainerList = redisTemplate.opsForList().range(username,-1,-1);
+        if(trainerList.size()==0){
+
+            //Kafka异步发送消息，放入缓存里
+            sender.send("getTrainers",username);
+            trainerList = dataService.getUserTrainers(username);
+        }
+
         //hateoasList
         Resources<TrainResource> resources = new Resources<TrainResource>(new
 
                 TrainerResourceAssembler().toResources(trainerList));
 
-        //Kafka异步发送消息
-        sender.send(trainerList);
 
         //return trainerList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data") : ResponseEntity.ok(trainerList);
         return trainerList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("No more data") : ResponseEntity.ok(resources.getContent());

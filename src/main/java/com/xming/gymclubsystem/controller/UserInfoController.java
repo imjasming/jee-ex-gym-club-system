@@ -11,6 +11,7 @@ import com.xming.gymclubsystem.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,21 +30,28 @@ public class UserInfoController {
     private UserService userService;
 
     @Autowired
-    private KafKaProducerService<UserInfo> sender;
+    private KafKaProducerService<String> sender;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("get user's info")
     @GetMapping("/{username}/info")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable("username") String username) {
-        UserInfo userInfo = userService.getUserInfoByName(username);
+
+
+        UserInfo userInfo = (UserInfo) redisTemplate.opsForValue().get(username);
+
         UserInfoResource userInfoResource = null;
         if (userInfo!=null){
+            //如果userinfo为空，异步发送消息去执行UserInfo获取
+            //Kafka异步发送消息
+            sender.send("getInfo",username);
             //hateoasList
             userInfoResource = new UserInfoResourceAssembler().toResource(userInfo);
             userInfoResource.add(linkTo(methodOn(UserInfoController.class).getUserInfo(username)).withSelfRel());
-            //Kafka异步发送消息
-            sender.send(userInfo);
         }
 
         //return userInfo == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(userInfo);
@@ -61,9 +69,6 @@ public class UserInfoController {
             //hateoasList
             userInfoResource = new UserInfoResourceAssembler().toResource(info);
             userInfoResource.add(linkTo(methodOn(UserInfoController.class).updateProfile(username,newProfile)).withSelfRel());
-
-            //Kafka异步发送消息
-            sender.send(info);
         }
         //return info != null ? ResponseEntity.ok(info) : ResponseEntity.badRequest().body("Profile update failed");
         return info != null ? ResponseEntity.ok(userInfoResource.getUserInfo()) : ResponseEntity.badRequest().body("Profile update failed");

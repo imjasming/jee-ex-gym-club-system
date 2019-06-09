@@ -22,9 +22,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class UserSignUpController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private KafKaProducerService<UmUser> sender;
-
     @RateLimitAspect(permitsPerSecond=10)
     @ApiOperation("sign up")
     @PostMapping(path = "/register")
@@ -33,8 +30,6 @@ public class UserSignUpController {
             @RequestBody UserSignUpRequest request) {
         UmUser user = userService.register(request);
         if (user != null) {
-            //kafka异步发送消息
-            sender.send(user);
             return ResponseEntity.ok(null);
         } else {
             return ResponseEntity.badRequest().body("Username or email already exists");
