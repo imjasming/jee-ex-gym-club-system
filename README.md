@@ -1,5 +1,6 @@
 # Gym Club  
 # 说明  
+> 反应式的【webFlux版本】在这里：[gym-club-webFlux](https://github.com/imjasming/gym-club-web-flux)
 > Gym Club 项目为前后端分离项目，前端项目`jee-ex-gym-club-system-web`地址：[gym-club-system-web](https://github.com/imjasming/jee-ex-gym-club-system-web)  
 # 项目介绍  
 本项目为【Java EE课程作业】后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
