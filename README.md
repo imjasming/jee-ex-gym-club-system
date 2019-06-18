@@ -1,10 +1,18 @@
 # Gym Club  
 # 说明  
+> 反应式的【webFlux版本】在这里：[gym-club-webFlux](https://github.com/imjasming/gym-club-web-flux)  
 > Gym Club 项目为前后端分离项目，前端项目`jee-ex-gym-club-system-web`地址：[gym-club-system-web](https://github.com/imjasming/jee-ex-gym-club-system-web)  
 # 项目介绍  
 本项目为【Java EE课程作业】后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
 目前实现功能：基本的登录注册，用户信息修改（包括修改密码），分页检索gym数据，分页检索trainers数据，对gym和trainer数据缓存，添加及检索私人trainer  
-详细见[设计文档](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+Assignment1 : 详细见[设计文档1](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+
+Assignment2 : 详细见[设计文档2](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+
+Assignment3 : 详细见[设计文档3](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+
+Assignment4 : 请到webflux项目仓库查看 readme 文档
+
 ## 项目升级
 ### v1.02
  + +接口设计统一 to restful； hateos
@@ -12,8 +20,12 @@
  + +整合google guava的 rate limit
  + +整合 Swagger文档生产工具
  + +web静态资源缓存（cache-control， max-age，etag...)
+ 
+### v1.03
+ + +kafka 消息异步处理
+ 
 ## 项目团队
-张小明（16301026），程威（16301032）
+张小明（16301026），程威（16301032）, 那涛（16301043）
 # 项目结构  
 ```
 .
@@ -127,7 +139,8 @@ src
 │  │              │  │  DataService.java ----------------- gym和trainer实体类分页检索，数据修改，添加private trainer接口
 │  │              │  │  GithubService.java --------------- github授权服务处理
 │  │              │  │  UserService.java  ---------------- 用户创建，登录，注册，信息检索及修改接口
-│  │              │  │  
+│  │              │  │  KafkaConsumer.java  -------------- Kafka 消息消费者，监听器方法，进行异步业务处理
+│  │              │  │  KafKaProducerService.java -------- Kafka 消息生产者，异步发送端
 │  │              │  └─impl
 │  │              │          DataServiceImpl.java ---------- gym和trainer实体类【分页】检索，【服务层必要数据缓存】
 │  │              │                                           ，数据修改，添加private trainer实现类
