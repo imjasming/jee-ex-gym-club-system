@@ -5,11 +5,11 @@
 # 项目介绍  
 本项目为【Java EE课程作业】后端项目，基于 Spring Boot + Spring Security 实现，包含用户认证，用户管理，首页等模块。
 目前实现功能：基本的登录注册，用户信息修改（包括修改密码），分页检索gym数据，分页检索trainers数据，对gym和trainer数据缓存，添加及检索私人trainer  
-Assignment1 : 详细见[设计文档1](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+Assignment1 : 详细见[设计文档1](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%B8%80%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
 
 Assignment2 : 详细见[设计文档2](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
 
-Assignment3 : 详细见[设计文档3](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%BA%8C%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
+Assignment3 : 详细见[设计文档3](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%B8%89%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
 
 Assignment4 : 请到webflux项目仓库查看 readme 文档
 
