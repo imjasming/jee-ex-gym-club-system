@@ -11,7 +11,7 @@ Assignment2 : 详细见[设计文档2](https://github.com/imjasming/jee-ex-gym-c
 
 Assignment3 : 详细见[设计文档3](https://github.com/imjasming/jee-ex-gym-club-system/blob/master/JaveEE%E7%AC%AC%E4%B8%89%E6%AC%A1%E8%AE%BE%E8%AE%A1%E6%96%87%E6%A1%A3.docx)
 
-Assignment4 : 请到webflux项目仓库查看 readme 文档
+Assignment4 : 请到webflux项目仓库查看设计文档
 
 ## 项目升级
 ### v1.02
