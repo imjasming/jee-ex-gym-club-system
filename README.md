@@ -27,7 +27,7 @@ Assignment4 : 请到webflux项目仓库查看设计文档
 ## 项目团队
 张小明（16301026），程威（16301032）, 那涛（16301043）
 # 项目结构  
-``` java
+```
 .
 src
 ├─main
@@ -174,7 +174,7 @@ src
 ### 认证与授权
 Spring Security OAuth2 + JWT
 Authentication code 方式，从github获取 access_token 和 github user部分代码
-```
+```java
 auth.oauth.GithubAuthentication.java
         requestEntity.add("client_id", githubProperties.getClientId());
         requestEntity.add("client_secret", githubProperties.getClientSecret());
